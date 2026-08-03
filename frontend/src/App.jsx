@@ -3,6 +3,7 @@ import ProfileScreen from './components/ProfileScreen'
 import QuizScreen from './components/QuizScreen'
 import Dashboard from './components/Dashboard'
 import CustomCursor from './components/CustomCursor'
+import InfoModal from './components/InfoModal'
 import { generateSessionId, generateDemoAnswers } from './utils/scoring'
 import { supabase } from './utils/supabase'
 
@@ -11,6 +12,7 @@ const SCREENS = { PROFILE: 'profile', QUIZ: 'quiz', WAITING: 'waiting', DASHBOAR
 export default function App() {
   const [screen, setScreen] = useState(SCREENS.PROFILE)
   const [error, setError] = useState(null)
+  const [infoOpen, setInfoOpen] = useState(false)
   const [appState, setAppState] = useState({
     role: 'A',
     name: '',
@@ -319,6 +321,16 @@ export default function App() {
       )}
       {(screen === SCREENS.QUIZ || screen === SCREENS.WAITING) && <QuizScreen appState={appState} onComplete={handleQuizComplete} isWaiting={screen === SCREENS.WAITING} />}
       {screen === SCREENS.DASHBOARD && <Dashboard appState={appState} shareLink={shareLink} />}
+
+      {screen !== SCREENS.PROFILE && (
+        <button className="global-menu-btn" onClick={() => setInfoOpen(true)} aria-label="Open Information Menu">
+          <div className="menu-bar" />
+          <div className="menu-bar" />
+          <div className="menu-bar" />
+        </button>
+      )}
+
+      {infoOpen && <InfoModal onClose={() => setInfoOpen(false)} />}
     </>
   )
 }
