@@ -15,7 +15,7 @@ import RoleDonut from './dashboard/RoleDonut'
 import StatusTable from './dashboard/StatusTable'
 import DetailedReport from './DetailedReport'
 
-export default function Dashboard({ appState, shareLink }) {
+export default function Dashboard({ appState, shareLink, onGoBack }) {
   const { role, name, otherData, answers, sessionId, profile } = appState
   const [isPdfGenerating, setIsPdfGenerating] = useState(false)
   const [showCheckoutModal, setShowCheckoutModal] = useState(false)
@@ -287,6 +287,29 @@ export default function Dashboard({ appState, shareLink }) {
           </div>
           <div className="dash-header-actions" style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
             <span style={{ fontSize: '13px', color: '#64748b' }}>{new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}</span>
+            {appState.isViewingHistory && onGoBack && (
+              <button 
+                onClick={onGoBack} 
+                className="btn-back-to-active"
+                style={{ 
+                  background: 'transparent', 
+                  border: '2px solid #3b82f6', 
+                  color: '#3b82f6', 
+                  padding: '8px 16px', 
+                  borderRadius: '8px', 
+                  cursor: 'pointer', 
+                  fontWeight: 700,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  fontFamily: "'Outfit', sans-serif",
+                  transition: 'all 0.2s ease',
+                  fontSize: '13px'
+                }}
+              >
+                ← Back to Active
+              </button>
+            )}
             <button className="btn-detailed-report" onClick={() => {
               if (!isPaid) {
                 setShowCheckoutModal(true)

@@ -13,6 +13,7 @@ export default function App() {
   const [screen, setScreen] = useState(SCREENS.PROFILE)
   const [error, setError] = useState(null)
   const [infoOpen, setInfoOpen] = useState(false)
+  const [backupState, setBackupState] = useState(null)
   const [appState, setAppState] = useState({
     role: 'A',
     name: '',
@@ -65,6 +66,17 @@ export default function App() {
     }
   }
 
+  const handleGoBackFromHistory = () => {
+    if (backupState) {
+      setAppState({
+        ...backupState.appState,
+        isViewingHistory: false
+      })
+      setScreen(backupState.screen)
+      setBackupState(null)
+    }
+  }
+
   const handleSelectHistorySession = (sessionData) => {
     const myEmail = appState.profile?.email
     if (!myEmail) return
@@ -74,6 +86,14 @@ export default function App() {
     const me = isA ? sessionData.founder_a : sessionData.founder_b
     const other = isA ? sessionData.founder_b : sessionData.founder_a
 
+    // Back up current state if we are not already viewing history
+    if (!appState.isViewingHistory) {
+      setBackupState({
+        appState: { ...appState },
+        screen: screen
+      })
+    }
+
     setAppState(s => ({
       ...s,
       role: isA ? 'A' : 'B',
@@ -81,13 +101,23 @@ export default function App() {
       name: me?.name || s.name,
       answers: me?.answers || {},
       profile: me?.profile || {},
-      otherData: other || null
+      otherData: other || null,
+      isViewingHistory: true
     }))
 
-    if (me && other) {
+    // both must have answers to show dashboard
+    const bothCompleted = !!(sessionData.founder_a?.answers && sessionData.founder_b?.answers)
+    
+    if (bothCompleted) {
       setScreen(SCREENS.DASHBOARD)
     } else {
-      setScreen(SCREENS.WAITING)
+      const myAnswers = me?.answers
+      const hasMyAnswers = myAnswers && Object.keys(myAnswers).length > 0
+      if (hasMyAnswers) {
+        setScreen(SCREENS.WAITING)
+      } else {
+        setScreen(SCREENS.QUIZ)
+      }
     }
   }
 
@@ -335,7 +365,7 @@ export default function App() {
         />
       )}
       {(screen === SCREENS.QUIZ || screen === SCREENS.WAITING) && <QuizScreen appState={appState} onComplete={handleQuizComplete} isWaiting={screen === SCREENS.WAITING} />}
-      {screen === SCREENS.DASHBOARD && <Dashboard appState={appState} shareLink={shareLink} />}
+      {screen === SCREENS.DASHBOARD && <Dashboard appState={appState} shareLink={shareLink} onGoBack={handleGoBackFromHistory} />}
 
       {screen !== SCREENS.PROFILE && (
         <button className="global-menu-btn" onClick={() => setInfoOpen(true)} aria-label="Open Information Menu">
