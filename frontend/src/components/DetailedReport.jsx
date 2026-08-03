@@ -243,23 +243,34 @@ export default function DetailedReport({
           </div>
         </div>
 
-        {/* ================= PAGE 5: DISCLAIMER & PRIVACY POLICY ================= */}
+        {/* ================= PAGE 5: DISCLAIMER & POLICIES (ALL ON ONE PAGE) ================= */}
         <div className="report-page">
           <div className="report-header">
             <span>INFOPACE AI ASSESSMENT SUITE</span>
-            <span>DISCLAIMER & PRIVACY POLICY</span>
+            <span>DISCLAIMER, POLICY, TERMS & CONDITIONS</span>
           </div>
           
-          <div className="report-body-content">
-            <h2 className="section-title">LEGAL DISCLAIMER</h2>
-            <p className="report-para" style={{ marginBottom: '40px' }}>
-              The AI-generated assessment report is intended for informational and decision-support purposes only. Results are based on the information provided by the user and AI-driven analysis and should not be considered legal, financial, investment, or professional advice. Users are encouraged to validate critical decisions with relevant experts before taking action.
-            </p>
+          <div className="report-body-content" style={{ gap: '16px' }}>
+            <div>
+              <h2 className="section-title" style={{ fontSize: '16px', marginBottom: '8px' }}>DISCLAIMER</h2>
+              <p className="report-para" style={{ fontSize: '11px', lineHeight: '1.5', margin: 0 }}>
+                The AI-generated assessment report is intended for informational and decision-support purposes only. Results are based on the information provided by the user and AI-driven analysis and should not be considered legal, financial, investment, or professional advice. Users are encouraged to validate critical decisions with relevant experts before taking action.
+              </p>
+            </div>
 
-            <h2 className="section-title">PRIVACY POLICY</h2>
-            <p className="report-para">
-              All information shared during the assessment is handled with confidentiality and used solely for generating personalized assessment reports and improving the quality of the assessment platform. User data is processed securely and is not shared with third parties without consent, except where required by applicable law.
-            </p>
+            <div>
+              <h2 className="section-title" style={{ fontSize: '16px', marginBottom: '8px' }}>PRIVACY POLICY</h2>
+              <p className="report-para" style={{ fontSize: '11px', lineHeight: '1.5', margin: 0 }}>
+                All information shared during the assessment is handled with confidentiality and used solely for generating personalized assessment reports and improving the quality of the assessment platform. User data is processed securely and is not shared with third parties without consent, except where required by applicable law.
+              </p>
+            </div>
+
+            <div>
+              <h2 className="section-title" style={{ fontSize: '16px', marginBottom: '8px' }}>TERMS & CONDITIONS</h2>
+              <p className="report-para" style={{ fontSize: '11.5px', lineHeight: '1.5', margin: 0 }}>
+                By using Infopace's AI-powered assessment tools, users acknowledge that the assessment results are generated based on the information they provide and the AI-driven evaluation methodology. The reports are intended to support decision-making and should not be considered a substitute for professional legal, financial, or business advice. Users are responsible for ensuring the accuracy of the information submitted and for any decisions or actions taken based on the report. Infopace does not guarantee specific business outcomes or success resulting from the recommendations provided. All assessment content, methodologies, reports, and related intellectual property remain the exclusive property of Infopace and may not be copied, reproduced, modified, or distributed without prior written consent. Infopace reserves the right to update, modify, or discontinue the assessment tools, methodologies, and these terms at any time without prior notice.
+              </p>
+            </div>
           </div>
 
           <div className="report-footer">
@@ -268,28 +279,45 @@ export default function DetailedReport({
           </div>
         </div>
 
-        {/* ================= PAGE 6: TERMS & CONDITIONS ================= */}
+        {/* ================= PAGE 6: ABOUT INFOPACE (EXACT WORD STATS) ================= */}
         <div className="report-page">
           <div className="report-header">
             <span>INFOPACE AI ASSESSMENT SUITE</span>
-            <span>TERMS & CONDITIONS</span>
+            <span>ABOUT INFOPACE</span>
           </div>
           
           <div className="report-body-content">
-            <h2 className="section-title">TERMS & CONDITIONS</h2>
-            
-            <p className="report-para" style={{ fontSize: '13px', marginBottom: '20px' }}>
-              By using Infopace's AI-powered assessment tools, users acknowledge that the assessment results are generated based on the information they provide and the AI-driven evaluation methodology. The reports are intended to support decision-making and should not be considered a substitute for professional legal, financial, or business advice.
+            <h2 className="section-title">ABOUT INFOPACE</h2>
+            <p className="report-para" style={{ marginBottom: '20px' }}>
+              Infopace Management Pvt. Ltd is a Bengaluru-based strategic change management and business transformation company established in 1999. The organization provides advisory and technology-driven solutions that assist businesses improve operational efficiency, accelerate growth and adapt to changing market conditions.
             </p>
-            <p className="report-para" style={{ fontSize: '13px', marginBottom: '20px' }}>
-              Users are responsible for ensuring the accuracy of the information submitted and for any decisions or actions taken based on the report. Infopace does not guarantee specific business outcomes or success resulting from the recommendations provided.
+            <p className="report-para" style={{ marginBottom: '32px' }}>
+              Its services include strategic change management, digital transformation, leadership development, market research, business incubation, innovation management, data analytics and AI-enabled solutions.
             </p>
-            <p className="report-para" style={{ fontSize: '13px', marginBottom: '20px' }}>
-              All assessment content, methodologies, reports, and related intellectual property remain the exclusive property of Infopace and may not be copied, reproduced, modified, or distributed without prior written consent.
+            <p className="report-para" style={{ marginBottom: '32px' }}>
+              Serving industries such as information technology, manufacturing, healthcare, education, retail, energy and telecommunications, Infopace partners with organizations to drive sustainable growth, enhance organizational performance, and support long-term business success.
             </p>
-            <p className="report-para" style={{ fontSize: '13px' }}>
-              Infopace reserves the right to update, modify, or discontinue the assessment tools, methodologies, and these terms at any time without prior notice.
-            </p>
+
+            <div className="info-stats-grid" style={{ gap: '16px' }}>
+              <div className="info-stat-card" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', padding: '16px' }}>
+                <span className="info-stat-num">200+</span>
+                <span className="info-stat-label" style={{ fontSize: '10px', marginTop: '6px' }}>
+                  Specialist with average of 7 years of expertise
+                </span>
+              </div>
+              <div className="info-stat-card" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', padding: '16px' }}>
+                <span className="info-stat-num">850+</span>
+                <span className="info-stat-label" style={{ fontSize: '10px', marginTop: '6px' }}>
+                  Delighted clients long lasting Partnership with exceptional experience
+                </span>
+              </div>
+              <div className="info-stat-card" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', padding: '16px' }}>
+                <span className="info-stat-num">7000+</span>
+                <span className="info-stat-label" style={{ fontSize: '10px', marginTop: '6px' }}>
+                  Delivered projects guiding Businesses through Digital Transformation
+                </span>
+              </div>
+            </div>
           </div>
 
           <div className="report-footer">
@@ -298,46 +326,30 @@ export default function DetailedReport({
           </div>
         </div>
 
-        {/* ================= PAGE 7: ABOUT INFOPACE & THANK YOU ================= */}
+        {/* ================= PAGE 7: THANK YOU & CONTACT ================= */}
         <div className="report-page">
           <div className="report-header">
             <span>INFOPACE AI ASSESSMENT SUITE</span>
-            <span>ABOUT INFOPACE & CONTACT</span>
+            <span>THANK YOU</span>
           </div>
           
-          <div className="report-body-content">
-            <h2 className="section-title">ABOUT INFOPACE</h2>
-            <p className="report-para" style={{ marginBottom: '24px' }}>
-              Infopace Management Pvt. Ltd is a Bengaluru-based strategic change management and business transformation company established in 1999. The organization provides advisory and technology-driven solutions that assist businesses improve operational efficiency, accelerate growth and adapt to changing market conditions.
-            </p>
-            <p className="report-para" style={{ marginBottom: '32px' }}>
-              Its services include strategic change management, digital transformation, leadership development, market research, business incubation, innovation management, data analytics and AI-enabled solutions.
+          <div className="report-body-content" style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center', padding: '0 20mm' }}>
+            <h2 className="section-title" style={{ fontSize: '28px', color: '#1e3a8a', marginBottom: '16px' }}>THANK YOU!</h2>
+            
+            <p className="report-para" style={{ fontSize: '16px', lineHeight: '1.6', marginBottom: '48px', color: '#334155' }}>
+              Thank you for taking the time to read this report. If you have any questions or would like to discuss our findings further, please don't hesitate to reach out to us.
             </p>
 
-            <div className="info-stats-grid" style={{ marginBottom: '32px' }}>
-              <div className="info-stat-card" style={{ background: '#f8fafc', border: '1px solid #e2e8f0' }}>
-                <span className="info-stat-num">25+</span>
-                <span className="info-stat-label">Years of Impact</span>
-              </div>
-              <div className="info-stat-card" style={{ background: '#f8fafc', border: '1px solid #e2e8f0' }}>
-                <span className="info-stat-num">850+</span>
-                <span className="info-stat-label">Delighted Clients</span>
-              </div>
-              <div className="info-stat-card" style={{ background: '#f8fafc', border: '1px solid #e2e8f0' }}>
-                <span className="info-stat-num">7000+</span>
-                <span className="info-stat-label">Business Projects</span>
-              </div>
-            </div>
-
-            <h3 className="section-title" style={{ marginTop: '24px', fontSize: '16px' }}>THANK YOU!</h3>
-            <p className="report-para" style={{ marginBottom: '24px' }}>
-              Thank you for taking the time to complete this assessment report. If you have any questions or would like to discuss our findings further, please don't hesitate to reach out to us.
-            </p>
-
-            <div className="contact-box-report">
-              <span className="contact-item-report">📍 2nd Floor, Halkatti Icon, 14, Sankey Rd, Sadashiva Nagar, Bengaluru, 560003</span>
-              <span className="contact-item-report">📞 +91 9845263775</span>
-              <span className="contact-item-report">✉️ info@infopaceindia.com</span>
+            <div className="contact-box-report" style={{ width: '100%', textAlign: 'left', background: '#f8fafc', border: '1px solid #e2e8f0', padding: '24px', borderRadius: '16px' }}>
+              <span className="contact-item-report" style={{ fontSize: '13.5px', display: 'block', marginBottom: '12px' }}>
+                📍 2nd Floor, Halkatti Icon, 14, Sankey Rd, Sadashiva Nagar, Guttahalli, Bengaluru, Karnataka 560003
+              </span>
+              <span className="contact-item-report" style={{ fontSize: '13.5px', display: 'block', marginBottom: '12px' }}>
+                📞 +91 9845263775
+              </span>
+              <span className="contact-item-report" style={{ fontSize: '13.5px', display: 'block' }}>
+                ✉️ info@infopaceindia.com
+              </span>
             </div>
           </div>
 
