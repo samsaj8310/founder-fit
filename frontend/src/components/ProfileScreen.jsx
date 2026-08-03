@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../utils/supabase'
+import { computeScores } from '../utils/scoring'
 
-export default function ProfileScreen({ appState, setAppState, shareLink, onStart }) {
+export default function ProfileScreen({ appState, setAppState, shareLink, onStart, history = [], onSelectHistory }) {
   const [form, setForm] = useState({ name: '', phone: '', email: '', company: '', roleType: 'Founder' })
   const [copied, setCopied] = useState(false)
 
@@ -30,6 +31,14 @@ export default function ProfileScreen({ appState, setAppState, shareLink, onStar
     } catch (e) {
       alert(`Google Sign-In failed: ${e.message || e}`)
     }
+  }
+
+  const getCompatibilityScore = (session) => {
+    if (session.founder_a?.answers && session.founder_b?.answers) {
+      const { overall } = computeScores(session.founder_a.answers, session.founder_b.answers)
+      return `${overall}% Match`
+    }
+    return 'Pending Partner'
   }
 
   // Extract clean digits for phone counter
@@ -302,6 +311,57 @@ export default function ProfileScreen({ appState, setAppState, shareLink, onStar
               </button>
             </div>
           </div>
+
+          {history.length > 0 && (
+            <div className="history-card-wrapper" style={{ marginTop: '24px' }}>
+              <div className="form-card-header">
+                <h2 className="form-card-title">Your Past Assessments</h2>
+                <p className="form-card-sub">Access your existing synergy dashboards and pending reports.</p>
+              </div>
+
+              <div className="history-list">
+                {history.map((session) => {
+                  const isA = session.founder_a?.profile?.email === appState.profile?.email
+                  const other = isA ? session.founder_b : session.founder_a
+                  
+                  const dateStr = new Date(session.created_at).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric'
+                  })
+                  
+                  const partnerName = other?.name || 'Pending Co-Founder'
+                  const isComplete = !!(session.founder_a && session.founder_b)
+                  const scoreText = getCompatibilityScore(session)
+                  
+                  return (
+                    <div key={session.id} className="history-item">
+                      <div className="history-item-details">
+                        <div className="history-item-primary">
+                          <span className="history-item-partner">👥 {partnerName}</span>
+                          <span className={`history-badge ${isComplete ? 'badge-complete' : 'badge-pending'}`}>
+                            {scoreText}
+                          </span>
+                        </div>
+                        <div className="history-item-meta">
+                          <span>📅 {dateStr}</span>
+                          <span className="history-meta-divider">|</span>
+                          <span>Session: {session.id.substring(0, 8)}...</span>
+                        </div>
+                      </div>
+                      
+                      <button 
+                        className="history-action-btn"
+                        onClick={() => onSelectHistory(session)}
+                      >
+                        {isComplete ? 'View Report 👁️' : 'Resume Setup ⚡'}
+                      </button>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
         </main>
       </div>
     </div>

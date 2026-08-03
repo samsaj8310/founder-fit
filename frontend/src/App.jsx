@@ -18,6 +18,7 @@ export default function App() {
     sessionId: '',
     answers: {},
     otherData: null,
+    history: []
   })
 
   // 1. Detect co-founder B and hydrate state from localStorage on mount
@@ -44,6 +45,50 @@ export default function App() {
     }
   }, [])
 
+  const fetchUserHistory = async (email) => {
+    if (!email) return
+    try {
+      const { data, error } = await supabase
+        .from('sessions')
+        .select('*')
+        .or(`founder_a->profile->>email.eq.${email},founder_b->profile->>email.eq.${email}`)
+        .order('created_at', { ascending: false })
+
+      if (error) throw error
+      if (data) {
+        setAppState(s => ({ ...s, history: data }))
+      }
+    } catch (e) {
+      console.error("Failed to fetch assessment history:", e)
+    }
+  }
+
+  const handleSelectHistorySession = (sessionData) => {
+    const myEmail = appState.profile?.email
+    if (!myEmail) return
+
+    // Determine role and datasets
+    const isA = sessionData.founder_a?.profile?.email === myEmail
+    const me = isA ? sessionData.founder_a : sessionData.founder_b
+    const other = isA ? sessionData.founder_b : sessionData.founder_a
+
+    setAppState(s => ({
+      ...s,
+      role: isA ? 'A' : 'B',
+      sessionId: sessionData.id,
+      name: me?.name || s.name,
+      answers: me?.answers || {},
+      profile: me?.profile || {},
+      otherData: other || null
+    }))
+
+    if (me && other) {
+      setScreen(SCREENS.DASHBOARD)
+    } else {
+      setScreen(SCREENS.WAITING)
+    }
+  }
+
   // 1.5 Get current active Supabase Auth user (e.g. returning from Google login)
   useEffect(() => {
     const handleAuthSession = async () => {
@@ -62,6 +107,7 @@ export default function App() {
               email: s.profile.email || email
             }
           }))
+          fetchUserHistory(email)
         }
       } catch (e) {
         console.error("Auth session fetch error:", e)
@@ -84,6 +130,9 @@ export default function App() {
             email: s.profile.email || email
           }
         }))
+        fetchUserHistory(email)
+      } else {
+        setAppState(s => ({ ...s, history: [] }))
       }
     })
 
@@ -258,7 +307,16 @@ export default function App() {
           <button onClick={() => setError(null)} style={{ marginLeft: '16px', background: 'transparent', border: '1px solid #fff', color: '#fff', borderRadius: '4px', cursor: 'pointer', padding: '2px 8px' }}>Dismiss</button>
         </div>
       )}
-      {screen === SCREENS.PROFILE && <ProfileScreen appState={appState} setAppState={setAppState} shareLink={shareLink} onStart={handleStartAssessment} />}
+      {screen === SCREENS.PROFILE && (
+        <ProfileScreen 
+          appState={appState} 
+          setAppState={setAppState} 
+          shareLink={shareLink} 
+          onStart={handleStartAssessment} 
+          history={appState.history || []}
+          onSelectHistory={handleSelectHistorySession}
+        />
+      )}
       {(screen === SCREENS.QUIZ || screen === SCREENS.WAITING) && <QuizScreen appState={appState} onComplete={handleQuizComplete} isWaiting={screen === SCREENS.WAITING} />}
       {screen === SCREENS.DASHBOARD && <Dashboard appState={appState} shareLink={shareLink} />}
     </>
