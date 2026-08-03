@@ -337,7 +337,7 @@ export default function App() {
       {(screen === SCREENS.QUIZ || screen === SCREENS.WAITING) && <QuizScreen appState={appState} onComplete={handleQuizComplete} isWaiting={screen === SCREENS.WAITING} />}
       {screen === SCREENS.DASHBOARD && <Dashboard appState={appState} shareLink={shareLink} />}
 
-      {screen === SCREENS.DASHBOARD && (
+      {screen !== SCREENS.PROFILE && (
         <button className="global-menu-btn" onClick={() => setInfoOpen(true)} aria-label="Open Information Menu">
           <div className="menu-bar" />
           <div className="menu-bar" />
@@ -345,7 +345,17 @@ export default function App() {
         </button>
       )}
 
-      {infoOpen && <InfoModal onClose={() => setInfoOpen(false)} />}
+      {infoOpen && (
+        <InfoModal 
+          onClose={() => setInfoOpen(false)} 
+          history={appState.history || []}
+          onSelectHistory={(session) => {
+            handleSelectHistorySession(session)
+            setInfoOpen(false)
+          }}
+          appState={appState}
+        />
+      )}
     </>
   )
 }

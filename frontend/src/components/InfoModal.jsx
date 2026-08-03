@@ -1,10 +1,15 @@
 import React, { useState } from 'react'
+import { computeScores } from '../utils/scoring'
 
-export default function InfoModal({ onClose }) {
+export default function InfoModal({ onClose, history = [], onSelectHistory, appState }) {
   const [activeTab, setActiveTab] = useState('overview')
 
   const getCompatibilityScore = (session) => {
-    return 'Pending'
+    if (session.founder_a?.answers && session.founder_b?.answers) {
+      const { overall } = computeScores(session.founder_a.answers, session.founder_b.answers)
+      return `${overall}% Match`
+    }
+    return 'Pending Partner'
   }
 
   return (
@@ -40,6 +45,14 @@ export default function InfoModal({ onClose }) {
           >
             Terms & Policies
           </button>
+          {history.length > 0 && (
+            <button 
+              className={`info-tab-btn ${activeTab === 'history' ? 'active' : ''}`}
+              onClick={() => setActiveTab('history')}
+            >
+              History ({history.length})
+            </button>
+          )}
         </div>
 
         {/* Body Content */}
@@ -167,6 +180,52 @@ export default function InfoModal({ onClose }) {
                   <strong>Phone:</strong> +91 9845263775<br/>
                   <strong>Email:</strong> info@infopaceindia.com
                 </p>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'history' && (
+            <div className="info-scroll-body">
+              <div className="history-list" style={{ marginTop: 0, maxHeight: 'none' }}>
+                {history.map((session) => {
+                  const isA = session.founder_a?.profile?.email === appState.profile?.email
+                  const other = isA ? session.founder_b : session.founder_a
+                  
+                  const dateStr = new Date(session.created_at).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric'
+                  })
+                  
+                  const partnerName = other?.name || 'Pending Co-Founder'
+                  const isComplete = !!(session.founder_a?.answers && session.founder_b?.answers)
+                  const scoreText = getCompatibilityScore(session)
+                  
+                  return (
+                    <div key={session.id} className="history-item">
+                      <div className="history-item-details">
+                        <div className="history-item-primary">
+                          <span className="history-item-partner">👥 {partnerName}</span>
+                          <span className={`history-badge ${isComplete ? 'badge-complete' : 'badge-pending'}`}>
+                            {scoreText}
+                          </span>
+                        </div>
+                        <div className="history-item-meta">
+                          <span>📅 {dateStr}</span>
+                          <span className="history-meta-divider">|</span>
+                          <span>Session: {session.id.substring(0, 8)}...</span>
+                        </div>
+                      </div>
+                      
+                      <button 
+                        className="history-action-btn"
+                        onClick={() => onSelectHistory(session)}
+                      >
+                        {isComplete ? 'View Report 👁️' : 'Resume Setup ⚡'}
+                      </button>
+                    </div>
+                  )
+                })}
               </div>
             </div>
           )}
