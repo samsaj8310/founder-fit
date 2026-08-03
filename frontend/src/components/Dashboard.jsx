@@ -13,11 +13,13 @@ import Gauge from './dashboard/Gauge'
 import LineChart from './dashboard/LineChart'
 import RoleDonut from './dashboard/RoleDonut'
 import StatusTable from './dashboard/StatusTable'
+import DetailedReport from './DetailedReport'
 
 export default function Dashboard({ appState, shareLink }) {
   const { role, name, otherData, answers, sessionId, profile } = appState
   const [isPdfGenerating, setIsPdfGenerating] = useState(false)
   const [showCheckoutModal, setShowCheckoutModal] = useState(false)
+  const [showDetailedReport, setShowDetailedReport] = useState(false)
   const dashboardRef = useRef()
 
   // Data processing...
@@ -283,8 +285,17 @@ export default function Dashboard({ appState, shareLink }) {
             <div className="founder-pill pill-a"><div className="pill-dot dot-a" />{nameA}</div>
             <div className="founder-pill pill-b"><div className="pill-dot dot-b" />{nameB}</div>
           </div>
-          <div className="dash-header-actions" style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+          <div className="dash-header-actions" style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
             <span style={{ fontSize: '13px', color: '#64748b' }}>{new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}</span>
+            <button className="btn-detailed-report" onClick={() => {
+              if (!isPaid) {
+                setShowCheckoutModal(true)
+              } else {
+                setShowDetailedReport(true)
+              }
+            }} style={{ background: '#2563eb', border: 'none', color: '#fff', padding: '10px 20px', borderRadius: '8px', cursor: 'pointer', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
+              📋 Detailed Report
+            </button>
             <button className="btn-download" onClick={downloadPdf} disabled={isPdfGenerating} style={{ background: '#10b981', border: 'none', color: '#fff', padding: '10px 20px', borderRadius: '8px', cursor: 'pointer', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap' }}>
               ↓ {isPdfGenerating ? 'Processing...' : 'Save PDF'}
             </button>
@@ -437,6 +448,20 @@ export default function Dashboard({ appState, shareLink }) {
             <p className="payment-modal-secure-text">🔒 Secured payments via standard payment hub</p>
           </div>
         </div>
+      )}
+
+      {showDetailedReport && (
+        <DetailedReport 
+          onClose={() => setShowDetailedReport(false)}
+          nameA={nameA}
+          nameB={nameB}
+          overall={overall}
+          catScores={catScores}
+          scoresA={scoresA}
+          scoresB={scoresB}
+          riskData={riskData}
+          weakCats={weakCats}
+        />
       )}
     </div>
   )
