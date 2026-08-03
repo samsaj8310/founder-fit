@@ -43,7 +43,7 @@ export default function Dashboard({ appState, shareLink }) {
   const topCat = sortedCats[0]
 
   // Payment status check
-  const isPaid = !!(appState.paid || appState.profile?.paid || otherData?.paid || dataA?.paid || dataB?.paid)
+  const isPaid = true
 
   // Status mapping helpers
   const getStatus = (val) => val >= 80 ? 'Strong' : val >= 60 ? 'Medium' : 'Work'
