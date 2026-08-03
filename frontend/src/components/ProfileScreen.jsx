@@ -19,6 +19,30 @@ export default function ProfileScreen({ appState, setAppState, shareLink, onStar
     }
   }, [appState.profile])
 
+  // Automatically fetch history when user types manually or syncs their email address
+  useEffect(() => {
+    if (form.email && form.email.includes('@')) {
+      const delayDebounce = setTimeout(async () => {
+        try {
+          const { data, error } = await supabase
+            .from('sessions')
+            .select('*')
+            .or(`founder_a->profile->>email.eq.${form.email},founder_b->profile->>email.eq.${form.email}`)
+            .order('created_at', { ascending: false })
+          
+          if (!error && data) {
+            setAppState(s => ({ ...s, history: data }))
+          }
+        } catch (e) {
+          console.error("Failed to load history for email:", e)
+        }
+      }, 600) // debounce 600ms
+      return () => clearTimeout(delayDebounce)
+    } else {
+      setAppState(s => ({ ...s, history: [] }))
+    }
+  }, [form.email])
+
   const handleGoogleLogin = async () => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
