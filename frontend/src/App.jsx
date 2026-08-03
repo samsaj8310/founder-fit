@@ -234,7 +234,7 @@ export default function App() {
           const meKey = isA ? 'founder_a' : 'founder_b'
           const otherKey = isA ? 'founder_b' : 'founder_a'
 
-          if (data[otherKey]) {
+          if (data[otherKey] && data[otherKey].answers) {
             setAppState(s => {
               const otherChanged = JSON.stringify(s.otherData) !== JSON.stringify(data[otherKey])
               const meChanged = JSON.stringify(s.answers) !== JSON.stringify(data[meKey]?.answers)
@@ -249,7 +249,7 @@ export default function App() {
               return s
             })
 
-            if (screen === SCREENS.WAITING) {
+            if (screen === SCREENS.WAITING && data[meKey]?.answers && data[otherKey]?.answers) {
               setScreen(SCREENS.DASHBOARD)
             }
           }
@@ -263,6 +263,21 @@ export default function App() {
     const interval = setInterval(poll, 5000)
     return () => clearInterval(interval)
   }, [appState.sessionId, screen, appState.role])
+
+  // 4.5 Safety check: ensure dashboard is only shown when both users have completed the test
+  useEffect(() => {
+    if (screen === SCREENS.DASHBOARD) {
+      const hasMyAnswers = appState.answers && Object.keys(appState.answers).length > 0
+      const hasOtherAnswers = appState.otherData?.answers && Object.keys(appState.otherData.answers).length > 0
+      
+      if (!hasMyAnswers) {
+        setScreen(SCREENS.QUIZ)
+      } else if (!hasOtherAnswers) {
+        setScreen(SCREENS.WAITING)
+      }
+    }
+  }, [screen, appState.answers, appState.otherData])
+
 
   const handleStartAssessment = (profileData) => {
     setAppState(s => ({ ...s, ...profileData }))
@@ -322,7 +337,7 @@ export default function App() {
       {(screen === SCREENS.QUIZ || screen === SCREENS.WAITING) && <QuizScreen appState={appState} onComplete={handleQuizComplete} isWaiting={screen === SCREENS.WAITING} />}
       {screen === SCREENS.DASHBOARD && <Dashboard appState={appState} shareLink={shareLink} />}
 
-      {screen !== SCREENS.PROFILE && (
+      {screen === SCREENS.DASHBOARD && (
         <button className="global-menu-btn" onClick={() => setInfoOpen(true)} aria-label="Open Information Menu">
           <div className="menu-bar" />
           <div className="menu-bar" />

@@ -312,7 +312,7 @@ export default function ProfileScreen({ appState, setAppState, shareLink, onStar
             </div>
           </div>
 
-          {history.length > 0 && (
+          {!isB && history.length > 0 && (
             <div className="history-card-wrapper" style={{ marginTop: '24px' }}>
               <div className="form-card-header">
                 <h2 className="form-card-title">Your Past Assessments</h2>
