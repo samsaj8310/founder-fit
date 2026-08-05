@@ -62,7 +62,7 @@ export default function RadarChart({ labels, datasets }) {
             ticks: { display: false },
             grid: { color: 'rgba(0,0,0,0.06)' },
             angleLines: { color: 'rgba(0,0,0,0.06)' },
-            pointLabels: { color: '#1e293b', font: { size: 10, weight: '700' } }
+            pointLabels: { color: '#1e293b', font: { size: 9, weight: '700' } }
           }
         }
       }

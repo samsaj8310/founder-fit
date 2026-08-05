@@ -15,6 +15,15 @@ export default function DetailedReport({
   weakCats
 }) {
 
+  React.useEffect(() => {
+    // Delay of 1000ms to allow chart animations to complete and render on canvas
+    const timer = setTimeout(() => {
+      window.print();
+      onClose();
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
   const handlePrint = () => {
     window.print();
   };
@@ -131,6 +140,20 @@ export default function DetailedReport({
           --b400:#3b82f6; --b300:#93c5fd; --b200:#bfdbfe; --b100:#dbeafe; --b50:#eff6ff;
           --surface:#f0f4ff; --border:rgba(17,68,160,0.14); --ink:#1e293b; --inkL:#64748b;
           --green:#10b981; --red:#f43f5e; --orange:#f97316; --purple:#86198f; --cyan:#06b6d4;
+        }
+
+        .detailed-report-overlay {
+          position: absolute !important;
+          left: -9999px !important;
+          top: 0 !important;
+          width: 210mm !important;
+          height: auto !important;
+          opacity: 0 !important;
+          pointer-events: none !important;
+          z-index: -9999 !important;
+          background: #fff !important;
+          display: block !important;
+          overflow: visible !important;
         }
 
         .detailed-report-overlay * {
@@ -748,10 +771,10 @@ export default function DetailedReport({
           <div className="pg-title">Strategic Alignment Charts</div>
           <div className="pg-sub">Live visual mapping of the profile overlap between the founders.</div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', margin: '15px 0' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', margin: '10px 0 50px' }}>
             <div>
               <div className="lbl">Strategic Alignment Radar</div>
-              <div style={{ height: '220px', width: '100%', position: 'relative' }}>
+              <div style={{ height: '190px', width: '100%', position: 'relative' }}>
                 <RadarChart 
                   labels={Object.keys(catScores).map(c => c.split(' ')[0])} 
                   datasets={[
@@ -764,7 +787,7 @@ export default function DetailedReport({
 
             <div>
               <div className="lbl">Decision Style Matrix</div>
-              <div style={{ height: '220px', width: '100%', position: 'relative' }}>
+              <div style={{ height: '190px', width: '100%', position: 'relative' }}>
                 <LineChart 
                   labels={Object.keys(catScores).map(c => c.split(' ')[0])} 
                   datasets={[
