@@ -67,6 +67,6 @@ export default function LineChart({ labels, datasets }) {
 
   }, [labels, datasets]);
 
-  return <div style={{ flex: 1, minHeight: 0, position: 'relative' }}><canvas ref={chartRef} /></div>;
+  return <div style={{ flex: 1, height: '100%', width: '100%', minHeight: 0, position: 'relative' }}><canvas ref={chartRef} /></div>;
 }
 

@@ -71,6 +71,6 @@ export default function RadarChart({ labels, datasets }) {
     return () => { if (chartInstance.current) chartInstance.current.destroy(); };
   }, [labels, datasets]);
 
-  return <div style={{ flex: 1, minHeight: 0, position: 'relative' }}><canvas ref={chartRef} /></div>;
+  return <div style={{ flex: 1, height: '100%', width: '100%', minHeight: 0, position: 'relative' }}><canvas ref={chartRef} /></div>;
 }
 

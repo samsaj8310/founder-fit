@@ -793,10 +793,10 @@ export default function DetailedReport({
           <div className="pg-title">Strategic Alignment Charts</div>
           <div className="pg-sub">Live visual mapping of the profile overlap between the founders.</div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', margin: '10px 0 50px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', margin: '10px 0 40px' }}>
             <div>
               <div className="lbl">Strategic Alignment Radar</div>
-              <div style={{ height: '190px', width: '100%', position: 'relative' }}>
+              <div style={{ height: '220px', width: '100%', position: 'relative', display: 'flex', flexDirection: 'column' }}>
                 <RadarChart 
                   labels={Object.keys(catScores).map(c => c.split(' ')[0])} 
                   datasets={[
@@ -809,7 +809,7 @@ export default function DetailedReport({
 
             <div>
               <div className="lbl">Decision Style Matrix</div>
-              <div style={{ height: '190px', width: '100%', position: 'relative' }}>
+              <div style={{ height: '220px', width: '100%', position: 'relative', display: 'flex', flexDirection: 'column' }}>
                 <LineChart 
                   labels={Object.keys(catScores).map(c => c.split(' ')[0])} 
                   datasets={[
