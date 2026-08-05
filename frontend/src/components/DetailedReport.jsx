@@ -2,6 +2,7 @@ import React from 'react';
 import RadarChart from './dashboard/RadarChart';
 import LineChart from './dashboard/LineChart';
 import { LOGO_BASE64 } from '../utils/logo';
+import { PHOTO_BASE64 } from '../utils/photo';
 
 export default function DetailedReport({ 
   onClose,
@@ -182,11 +183,21 @@ export default function DetailedReport({
           background: #fff;
           box-shadow: 0 8px 40px rgba(15,30,60,0.12);
           position: relative;
-          padding: 15mm 16mm 12mm;
           display: flex;
           flex-direction: column;
           page-break-after: always;
           overflow: hidden;
+          box-sizing: border-box;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
+        .page {
+          padding: 15mm 16mm 12mm;
+        }
+
+        .wp-page {
+          padding: 0;
         }
 
         @media print {
@@ -241,13 +252,22 @@ export default function DetailedReport({
             width: 210mm !important;
             height: 297mm !important;
             margin: 0 !important;
-            padding: 15mm 16mm 12mm !important;
             page-break-after: always !important;
             page-break-inside: avoid !important;
             box-shadow: none !important;
-            background: #ffffff !important;
+            background-color: #ffffff;
             box-sizing: border-box !important;
             overflow: hidden !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
+
+          .page {
+            padding: 15mm 16mm 12mm !important;
+          }
+
+          .wp-page {
+            padding: 0 !important;
           }
         }
 
@@ -257,7 +277,6 @@ export default function DetailedReport({
           align-items: center;
           padding-bottom: 9px;
           margin-bottom: 20px;
-          border-bottom: 1px solid var(--border);
         }
 
         .brand {
@@ -572,40 +591,40 @@ export default function DetailedReport({
             <div className="wp-mono" style={{ fontSize: '11.5px', letterSpacing: '.16em', textTransform: 'uppercase', color: '#1a56db', fontWeight: 600, marginBottom: '3mm' }}>Company Overview</div>
             <div className="wp-serif" style={{ fontSize: '36.8px', fontWeight: 700, color: '#061228', marginBottom: '6mm' }}>Our Assessment Suite</div>
             
-            <p style={{ fontSize: '12.6px', color: '#334155', lineHeight: '1.87', marginBottom: '4mm', textAlign: 'left' }}>Infopace continued to strengthen its portfolio of AI-powered business assessment tools, delivering data-driven solutions that assist entrepreneurs, startups, and organizations make informed strategic decisions.</p>
+            <p style={{ fontSize: '12.6px', color: '#334155', lineHeight: '1.87', marginBottom: '4mm', textAlign: 'left' }}>Over the reporting period, Infopace continued to strengthen its portfolio of AI-powered business assessment tools, delivering intelligent, data-driven solutions that assist entrepreneurs, startups, and organizations make informed strategic decisions.</p>
             <p style={{ fontSize: '12.6px', color: '#334155', lineHeight: '1.87', marginBottom: '8mm', textAlign: 'left' }}>Each assessment leverages AI to analyze user responses and generate comprehensive reports containing actionable insights, key findings, strengths, improvement areas, and tailored recommendations. The current suite includes the following five tools:</p>
             
             <div className="wp-mono" style={{ fontSize: '10.3px', letterSpacing: '.14em', textTransform: 'uppercase', color: '#94a3b8', marginBottom: '2mm' }}>The Assessment Suite</div>
             <div style={{ display: 'flex', gap: '5mm', padding: '4.5mm 0', borderBottom: '1px solid var(--border)' }}>
-              <div style={{ width: '3px', background: '#a21caf', borderRadius: '2px', flexShrink: 0 }}></div>
+              <div style={{ borderLeft: '3px solid #a21caf', borderRadius: '2px', flexShrink: 0 }}></div>
               <div>
                 <div style={{ fontWeight: 700, fontSize: '14.4px', color: '#0f172a', marginBottom: '1.5mm' }}>Market Research Assessment</div>
                 <div style={{ fontSize: '11.8px', color: '#475569', lineHeight: 1.76 }}>Validates business ideas by analyzing market demand, customer needs, industry trends, and competition, enabling informed market-entry decisions.</div>
               </div>
             </div>
             <div style={{ display: 'flex', gap: '5mm', padding: '4.5mm 0', borderBottom: '1px solid var(--border)' }}>
-              <div style={{ width: '3px', background: '#06b6d4', borderRadius: '2px', flexShrink: 0 }}></div>
+              <div style={{ borderLeft: '3px solid #06b6d4', borderRadius: '2px', flexShrink: 0 }}></div>
               <div>
                 <div style={{ fontWeight: 700, fontSize: '14.4px', color: '#0f172a', marginBottom: '1.5mm' }}>Market Potential</div>
                 <div style={{ fontSize: '11.8px', color: '#475569', lineHeight: 1.76 }}>Evaluates the growth potential and commercial viability of a product or business by assessing market size, demand, scalability and risk opportunities.</div>
               </div>
             </div>
             <div style={{ display: 'flex', gap: '5mm', padding: '4.5mm 0', borderBottom: '1px solid var(--border)' }}>
-              <div style={{ width: '3px', background: '#1a56db', borderRadius: '2px', flexShrink: 0 }}></div>
+              <div style={{ borderLeft: '3px solid #1a56db', borderRadius: '2px', flexShrink: 0 }}></div>
               <div>
-                <div style={{ fontWeight: 700, fontSize: '14.4px', color: '#1a56db', marginBottom: '1.5mm' }}>Creative Innovation Index</div>
+                <div style={{ fontWeight: 700, fontSize: '14.4px', color: '#0f172a', marginBottom: '1.5mm' }}>Creative Innovation Index</div>
                 <div style={{ fontSize: '11.8px', color: '#475569', lineHeight: 1.76 }}>Measures innovation capability by assessing creativity, problem-solving and adaptability, assisting individuals and organizations strengthen their innovation potential.</div>
               </div>
             </div>
             <div style={{ display: 'flex', gap: '5mm', padding: '4.5mm 0', borderBottom: '1px solid var(--border)' }}>
-              <div style={{ width: '3px', background: '#f97316', borderRadius: '2px', flexShrink: 0 }}></div>
+              <div style={{ borderLeft: '3px solid #f97316', borderRadius: '2px', flexShrink: 0 }}></div>
               <div>
                 <div style={{ fontWeight: 700, fontSize: '14.4px', color: '#0f172a', marginBottom: '1.5mm' }}>Business Risk Assessment</div>
                 <div style={{ fontSize: '11.8px', color: '#475569', lineHeight: 1.76 }}>Identifies strategic, operational, financial and market risks, enabling businesses to proactively mitigate challenges and improve resilience.</div>
               </div>
             </div>
             <div style={{ display: 'flex', gap: '5mm', padding: '4.5mm 0', borderBottom: '1px solid var(--border)' }}>
-              <div style={{ width: '3px', background: '#f43f5e', borderRadius: '2px', flexShrink: 0 }}></div>
+              <div style={{ borderLeft: '3px solid #f43f5e', borderRadius: '2px', flexShrink: 0 }}></div>
               <div>
                 <div style={{ fontWeight: 700, fontSize: '14.4px', color: '#0f172a', marginBottom: '1.5mm' }}>Founder and Co-Founder Compatibility</div>
                 <div style={{ fontSize: '11.8px', color: '#475569', lineHeight: 1.76 }}>Assesses alignment between founders in leadership, communication, values, and decision-making to build stronger partnerships and reduce future conflicts.</div>
@@ -928,14 +947,15 @@ export default function DetailedReport({
               <div className="pg-num wp-mono">10 / 12</div>
             </div>
             
-            <div className="wp-serif" style={{ fontSize: '28.7px', fontWeight: 700, color: '#061228', marginBottom: '8mm' }}>Disclaimer, Privacy and Terms</div>
+            <div className="wp-serif" style={{ fontSize: '28.7px', fontWeight: 700, color: '#061228', marginBottom: '8mm', whiteSpace: 'nowrap' }}>Disclaimer, Privacy and Terms</div>
             
             <div style={{ display: 'flex', gap: '5mm', marginBottom: '7mm' }}>
               <div style={{ width: '11mm', height: '11mm', borderRadius: '10px', background: '#fff7ed', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18.4px', flexShrink: 0 }}>⚠️</div>
               <div>
-                <div className="wp-serif" style={{ fontSize: '17px', fontWeight: 700, color: '#061228', marginBottom: '2mm' }}>Disclaimer</div>
-                <div style={{ fontSize: '11px', color: '#334155', lineHeight: 1.78, textAlign: 'left' }}>
-                  The AI-evaluated compatibility report is for informational purposes only. The findings and recommendations are directional indicators and do not constitute legal, financial, or corporate governance advice.
+                <div className="wp-serif" style={{ fontSize: '17.2px', fontWeight: 700, color: '#061228', marginBottom: '2mm' }}>Disclaimer</div>
+                <div style={{ fontSize: '11.7px', color: '#334155', lineHeight: 1.78, textAlign: 'left' }}>
+                  <p style={{ marginBottom: '2mm' }}>The <b>AI-evaluated assessment report</b> is intended for informational and decision-support purposes only. Results are based on the information provided by the user and AI-driven analysis and should not be considered legal, financial, investment, or professional advice.</p>
+                  <p style={{ marginBottom: '2mm' }}>Users are encouraged to validate critical decisions with relevant experts before taking action. Infopace makes no representation or warranty as to the completeness or accuracy of AI-evaluated interpretations, and scores should be read as directional indicators rather than absolute measurements.</p>
                 </div>
               </div>
             </div>
@@ -943,9 +963,10 @@ export default function DetailedReport({
             <div style={{ display: 'flex', gap: '5mm', marginBottom: '7mm' }}>
               <div style={{ width: '11mm', height: '11mm', borderRadius: '10px', background: '#f0fdf4', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18.4px', flexShrink: 0 }}>🔒</div>
               <div>
-                <div className="wp-serif" style={{ fontSize: '17px', fontWeight: 700, color: '#061228', marginBottom: '2mm' }}>Privacy Policy</div>
-                <div style={{ fontSize: '11px', color: '#334155', lineHeight: 1.78, textAlign: 'left' }}>
-                  Assessment responses are handled with strict confidentiality and secure encryption. Your personal responses are not used to train external models or disclosed to third parties.
+                <div className="wp-serif" style={{ fontSize: '17.2px', fontWeight: 700, color: '#061228', marginBottom: '2mm' }}>Privacy Policy</div>
+                <div style={{ fontSize: '11.7px', color: '#334155', lineHeight: 1.78, textAlign: 'left' }}>
+                  <p style={{ marginBottom: '2mm' }}>All information shared during the assessment is handled with confidentiality and used solely for generating personalized assessment reports and improving the quality of the assessment platform.</p>
+                  <p style={{ marginBottom: '2mm' }}>User data is processed securely and is not shared with third parties without consent, except where required by applicable law. Individual open-ended responses are never used to train external models or shared outside Infopace's assessment infrastructure.</p>
                 </div>
               </div>
             </div>
@@ -953,15 +974,17 @@ export default function DetailedReport({
             <div style={{ display: 'flex', gap: '5mm', marginBottom: '7mm' }}>
               <div style={{ width: '11mm', height: '11mm', borderRadius: '10px', background: '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18.4px', flexShrink: 0 }}>📄</div>
               <div>
-                <div className="wp-serif" style={{ fontSize: '17px', fontWeight: 700, color: '#061228', marginBottom: '2mm' }}>Terms and Conditions</div>
-                <div style={{ fontSize: '11px', color: '#334155', lineHeight: 1.78, textAlign: 'left' }}>
-                  By using this assessment, you agree that Infopace does not guarantee specific business outcomes or liability resulting from actions taken based on these diagnostics.
+                <div className="wp-serif" style={{ fontSize: '17.2px', fontWeight: 700, color: '#061228', marginBottom: '2mm' }}>Terms and Conditions</div>
+                <div style={{ fontSize: '11.7px', color: '#334155', lineHeight: 1.78, textAlign: 'left' }}>
+                  <p style={{ marginBottom: '2mm' }}>By using Infopace's AI-powered assessment tools, users acknowledge that the assessment results are generated based on the information they provide and the AI-driven evaluation methodology. The reports are intended to support decision-making and should not be considered a substitute for professional legal, financial, or business advice.</p>
+                  <p style={{ marginBottom: '2mm' }}>Users are responsible for ensuring the accuracy of the information submitted and for any decisions or actions taken based on the report. Infopace does not guarantee specific business outcomes or success resulting from the recommendations provided.</p>
+                  <p style={{ marginBottom: '2mm' }}>All assessment content, methodologies, reports, and related intellectual property remain the exclusive property of Infopace and may not be copied, reproduced, modified, or distributed without prior written consent. Infopace reserves the right to update, modify, or discontinue the assessment tools, methodologies, and these terms at any time without prior notice.</p>
                 </div>
               </div>
             </div>
 
             <div style={{ marginTop: 'auto', paddingTop: '6mm', borderTop: '1px solid var(--border)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9.5px', color: '#94a3b8' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9.5px', color: '#94a3b8', letterSpacing: '.02em' }}>
                 <div>©2026 Infopace Management Pvt. Ltd. All Rights Reserved.</div>
                 <div>AI-Evaluated Report</div>
               </div>
@@ -970,77 +993,136 @@ export default function DetailedReport({
         </div>
 
         {/* ================= PAGE 11: ABOUT INFOPACE ================= */}
-        <div className="wp-page">
-          <div style={{ padding: '16mm 16mm 4mm', display: 'flex', flexDirection: 'column', minHeight: '297mm' }}>
-            <div className="pg-hdr">
-              <div className="brand">
-                <img src={LOGO_BASE64} alt="Infopace" style={{ height: '56px' }} />
-              </div>
-              <div className="pg-num wp-mono">11 / 12</div>
+        <div className="wp-page" style={{ display: 'flex', flexDirection: 'column', padding: '0' }}>
+          <div style={{ padding: '16mm 16mm 4mm' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '7mm' }}>
+              <img src={LOGO_BASE64} alt="Infopace" style={{ height: '56px' }} />
+              <div className="wp-mono" style={{ fontSize: '10.3px', color: '#94a3b8' }}>11 / 12</div>
+            </div>
+            
+            <div className="wp-serif" style={{ fontSize: '34px', fontWeight: 700, color: '#061228', lineHeight: '1.1', marginBottom: '5mm' }}>
+              About <span style={{ color: '#1a56db' }}>Infopace</span>
             </div>
 
-            <div className="wp-serif" style={{ fontSize: '32px', fontWeight: 700, color: '#061228', marginBottom: '4mm' }}>About Infopace</div>
-            <p style={{ fontSize: '12px', color: '#334155', lineHeight: 1.85, marginBottom: '6mm', textAlign: 'left' }}>
-              Infopace Management Pvt. Ltd. is a global specialist services provider helping corporate leaders, fast-growing startups, and investors validate strategy, build aligned teams, and evaluate market potential.
-            </p>
+            <div style={{ fontSize: '11.2px', color: '#334155', lineHeight: '1.68', textAlign: 'left' }}>
+              <p style={{ marginBottom: '2.5mm' }}>Infopace Management Pvt. Ltd is a Bengaluru-based strategic change management and business transformation company established in 1999, providing advisory and technology-driven solutions that help businesses improve operational efficiency, accelerate growth and adapt to changing market conditions.</p>
+              <p style={{ marginBottom: '2.5mm' }}>Our approach combines deep sector expertise with data-driven methodology — every engagement begins with understanding the specific operational and market context a client is working within, rather than applying a generic playbook. This is the same philosophy behind the AI-powered assessment tools used to generate this report: structured, evidence-based, and built to reflect the individual, not a template.</p>
+            </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '15px', marginBottom: '8mm' }}>
-              <div style={{ background: '#f8fafc', padding: '15px', borderRadius: '10px', textAlign: 'center', border: '1px solid var(--border)' }}>
-                <div className="wp-mono" style={{ fontSize: '24px', fontWeight: 700, color: '#1a56db' }}>200+</div>
-                <div style={{ fontSize: '10px', color: '#64748b', textTransform: 'uppercase', marginTop: '4px' }}>Specialists</div>
-              </div>
-              <div style={{ background: '#f8fafc', padding: '15px', borderRadius: '10px', textAlign: 'center', border: '1px solid var(--border)' }}>
-                <div className="wp-mono" style={{ fontSize: '24px', fontWeight: 700, color: '#1a56db' }}>850+</div>
-                <div style={{ fontSize: '10px', color: '#64748b', textTransform: 'uppercase', marginTop: '4px' }}>Clients</div>
-              </div>
-              <div style={{ background: '#f8fafc', padding: '15px', borderRadius: '10px', textAlign: 'center', border: '1px solid var(--border)' }}>
-                <div className="wp-mono" style={{ fontSize: '24px', fontWeight: 700, color: '#1a56db' }}>7000+</div>
-                <div style={{ fontSize: '10px', color: '#64748b', textTransform: 'uppercase', marginTop: '4px' }}>Projects</div>
+            <div style={{ marginTop: '5mm' }}>
+              <div className="wp-mono" style={{ fontSize: '9px', letterSpacing: '.12em', textTransform: 'uppercase', color: '#94a3b8', marginBottom: '2mm' }}>What We Do</div>
+              <div style={{ display: 'flex', gap: '8mm' }}>
+                <div style={{ flex: 1 }}>
+                  {[
+                    "Growth Acceleration Partner",
+                    "Global Capabilities Center",
+                    "Strategic Change Management",
+                    "Strategic Investment and Funding",
+                    "Data Analytics Solutions",
+                    "Digital Transformation"
+                  ].map((item, idx) => (
+                    <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '3mm', padding: '1.6mm 0' }}>
+                      <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#1a56db', flexShrink: 0, marginTop: '1.5mm' }}></div>
+                      <div style={{ fontSize: '9.8px', color: '#334155', lineHeight: '1.4' }}>{item}</div>
+                    </div>
+                  ))}
+                </div>
+                <div style={{ flex: 1 }}>
+                  {[
+                    "AI-Enabled Solutions",
+                    "Enabling the Entrepreneurial Ecosystem",
+                    "Go To Market Strategy and Research",
+                    "Market Access and Readiness",
+                    "Pivoting and Repurposing Businesses",
+                    "Radical Innovation"
+                  ].map((item, idx) => (
+                    <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '3mm', padding: '1.6mm 0' }}>
+                      <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#1a56db', flexShrink: 0, marginTop: '1.5mm' }}></div>
+                      <div style={{ fontSize: '9.8px', color: '#334155', lineHeight: '1.4' }}>{item}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
-            <h3 className="sec">Our Leadership Core</h3>
-            <p className="body">Infopace specializes in cross-border strategy validation and executive alignment. Through our proprietary diagnostic methodologies and strategic advisory partners, we assist organizations in identifying operational risks and configuring corporate structures for sustainable scaling.</p>
-
-            <div style={{ marginTop: 'auto', paddingTop: '6mm', borderTop: '1px solid var(--border)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9.5px', color: '#94a3b8' }}>
-                <div>©2026 Infopace Management Pvt. Ltd. All Rights Reserved.</div>
-                <div>AI-Evaluated Report</div>
+            <div style={{ marginTop: '5mm' }}>
+              <div className="wp-mono" style={{ fontSize: '9px', letterSpacing: '.12em', textTransform: 'uppercase', color: '#94a3b8', marginBottom: '3mm' }}>Industries We Serve</div>
+              <div>
+                {[
+                  "Automobile", "Education", "Health Care", "ITES", "Information Technology",
+                  "Manufacturing", "Retail", "Telecom", "Energy", "NGO", "Food Processing",
+                  "Agritech", "Aerospace", "Semiconductor", "ESDM"
+                ].map((item, idx) => (
+                  <span key={idx} style={{ display: 'inline-block', fontSize: '9.2px', color: '#1a56db', background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '20px', padding: '2mm 4mm', margin: '0 2mm 2mm 0' }}>
+                    {item}
+                  </span>
+                ))}
               </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '4mm', marginTop: '5mm' }}>
+              {[
+                { count: "200+", label: "Specialists, avg. 7 years expertise" },
+                { count: "850+", label: "Long-lasting client partnerships" },
+                { count: "7000+", label: "Projects in digital transformation" }
+              ].map((card, idx) => (
+                <div key={idx} style={{ flex: 1, border: '1px solid var(--border)', borderRadius: '10px', padding: '4mm 3mm', textAlign: 'left', background: '#f8faff' }}>
+                  <div style={{ fontWeight: 800, fontSize: '25.3px', color: '#1a56db' }}>{card.count}</div>
+                  <div style={{ fontSize: '9.2px', color: '#64748b', marginTop: '1.5mm', lineHeight: '1.54' }}>{card.label}</div>
+                </div>
+              ))}
             </div>
           </div>
+
+          <div style={{ height: '89mm', position: 'relative', backgroundImage: `url(${PHOTO_BASE64})`, backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
         </div>
 
         {/* ================= PAGE 12: THANK YOU ================= */}
-        <div className="wp-page" style={{ padding: '0', display: 'flex', flexDirection: 'column', background: '#061228', color: '#f8fafc' }}>
-          <div style={{ padding: '16mm 16mm 0', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: '220mm' }}>
-            <div className="wp-serif" style={{ fontSize: '50px', fontWeight: 700, color: '#fff', marginBottom: '6mm', lineHeight: '1.1' }}>Thank You.</div>
-            <p style={{ fontSize: '14px', color: '#94a3b8', lineHeight: '1.8', maxWidth: '440px', marginBottom: '8mm' }}>
-              We appreciate your trust in Infopace assessments. For further custom alignment advisory, contact our senior consultants.
-            </p>
-
-            <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '8mm', display: 'flex', flexDirection: 'column', gap: '4mm' }}>
-              <div>
-                <div className="wp-mono" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '.1em', color: '#38bdf8', marginBottom: '1.5mm' }}>Bengaluru HQ Office</div>
-                <div style={{ fontSize: '12px', color: '#cbd5e1', lineHeight: '1.6' }}>
-                  2nd Floor, Halkatti Icon, 14, Sankey Rd,<br/>
-                  Sadashiva Nagar, Guttahalli, Bengaluru,<br/>
-                  Karnataka 560003
-                </div>
-              </div>
-              <div style={{ display: 'flex', gap: '8mm', fontSize: '12px', color: '#cbd5e1' }}>
-                <div><span style={{ color: '#38bdf8' }}>Phone:</span> +91 98452 63775</div>
-                <div><span style={{ color: '#38bdf8' }}>Email:</span> info@infopaceindia.com</div>
-              </div>
+        <div className="wp-page" style={{ display: 'flex', flexDirection: 'column' }}>
+          <div style={{ position: 'relative', zIndex: 2, padding: '12mm 16mm 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <img src={LOGO_BASE64} alt="Infopace" style={{ height: '56px' }} />
+            <div className="wp-mono" style={{ fontSize: '10.3px', color: '#94a3b8' }}>12 / 12</div>
+          </div>
+          <div style={{ position: 'relative', height: '75mm', overflow: 'hidden' }}>
+            <svg width="100%" height="100%" preserveAspectRatio="xMaxYMid slice" viewBox="0 0 760 480">
+              <path d="M 0.0 23.8 Q 17.3 25.4 25.9 26.2 Q 51.8 28.9 60.5 29.8 Q 86.4 32.5 95.0 33.3 Q 120.9 35.8 129.5 36.6 Q 155.5 38.8 164.1 39.5 Q 190.0 41.4 198.6 42.0 Q 224.5 43.6 233.2 44.0 Q 259.1 45.2 267.7 45.5 Q 293.6 46.1 302.3 46.0 Q 328.2 45.6 336.8 45.2 Q 362.7 43.7 371.4 42.9 Q 397.3 40.0 405.9 38.8 Q 431.8 34.9 440.5 33.4 Q 466.4 28.7 475.0 27.0 Q 500.9 21.9 509.5 20.1 Q 535.5 14.8 544.1 13.1 Q 570.0 7.9 578.6 6.2 Q 604.5 1.2 613.2 -0.3 Q 639.1 -4.8 647.7 -6.1 Q 673.6 -9.9 682.3 -10.9 Q 708.2 -13.7 716.8 -14.3 Q 742.7 -15.6 751.4 -15.7" fill="none" stroke="#1a56db" strokeWidth="1.05" strokeOpacity="0.75" strokeLinecap="round"/>
+              <path d="M 0.0 30.0 Q 17.3 31.7 25.9 32.5 Q 51.8 35.2 60.5 36.1 Q 86.4 38.7 95.0 39.6 Q 120.9 42.0 129.5 42.8 Q 155.5 45.0 164.1 45.7 Q 190.0 47.7 198.6 48.3 Q 224.5 49.9 233.2 50.4 Q 259.1 51.4 267.7 51.6 Q 293.6 51.7 302.3 51.5 Q 328.2 50.5 336.8 49.9 Q 362.7 47.6 371.4 46.5 Q 397.3 42.9 405.9 41.5 Q 431.8 37.0 440.5 35.3 Q 466.4 30.2 475.0 28.4 Q 500.9 23.0 509.5 21.1 Q 535.5 15.7 544.1 13.9 Q 570.0 8.6 578.6 6.9 Q 604.5 1.9 613.2 0.4 Q 639.1 -4.0 647.7 -5.3 Q 673.6 -8.7 682.3 -9.5 Q 708.2 -11.6 716.8 -12.0 Q 742.7 -12.5 751.4 -12.3" fill="none" stroke="#1a56db" strokeWidth="1.05" strokeOpacity="0.70" strokeLinecap="round"/>
+              <path d="M 0.0 41.2 Q 17.3 44.2 25.9 45.7 Q 51.8 50.3 60.5 51.8 Q 86.4 56.4 95.0 57.8 Q 120.9 62.2 129.5 63.5 Q 155.5 67.5 164.1 68.7 Q 190.0 72.1 198.6 73.0 Q 224.5 75.5 233.2 76.1 Q 259.1 77.3 267.7 77.3 Q 293.6 76.7 302.3 76.1 Q 328.2 73.6 336.8 72.3 Q 362.7 67.7 371.4 65.8 Q 397.3 59.5 405.9 57.0 Q 431.8 49.3 440.5 46.4 Q 466.4 37.6 475.0 34.5 Q 500.9 25.0 509.5 21.7 Q 535.5 11.8 544.1 8.4 Q 570.0 -1.6 578.6 -4.9 Q 604.5 -14.5 613.2 -17.6 Q 639.1 -26.4 647.7 -29.0 Q 673.6 -36.4 682.3 -38.4 Q 708.2 -43.7 716.8 -45.0 Q 742.7 -47.9 751.4 -48.3" fill="none" stroke="#1a56db" strokeWidth="1.30" strokeOpacity="0.65" strokeLinecap="round"/>
+              <path d="M 0.0 47.3 Q 17.3 49.5 25.9 50.6 Q 51.8 53.8 60.5 54.8 Q 86.4 58.0 95.0 59.0 Q 120.9 61.9 129.5 62.8 Q 155.5 65.3 164.1 66.0 Q 190.0 67.9 198.6 68.3 Q 224.5 69.2 233.2 69.2 Q 259.1 68.7 267.7 68.1 Q 293.6 66.0 302.3 64.9 Q 328.2 61.1 336.8 59.5 Q 362.7 54.3 371.4 52.3 Q 397.3 46.0 405.9 43.8 Q 431.8 36.9 440.5 34.5 Q 466.4 27.4 475.0 25.1 Q 500.9 18.1 509.5 15.8 Q 535.5 9.2 544.1 7.2 Q 570.0 1.3 578.6 -0.5 Q 604.5 -5.2 613.2 -6.4 Q 639.1 -9.6 647.7 -10.2 Q 673.6 -11.3 682.3 -11.2 Q 708.2 -10.1 716.8 -9.2 Q 742.7 -5.7 751.4 -4.0" fill="none" stroke="#1a56db" strokeWidth="1.05" strokeOpacity="0.60" strokeLinecap="round"/>
+              <path d="M 0.0 53.7 Q 17.3 55.2 25.9 56.0 Q 51.8 58.2 60.5 58.9 Q 86.4 61.0 95.0 61.6 Q 120.9 63.6 129.5 64.2 Q 155.5 65.9 164.1 66.4 Q 190.0 67.5 198.6 67.7 Q 224.5 67.9 233.2 67.7 Q 259.1 66.8 267.7 66.2 Q 293.6 64.0 302.3 63.0 Q 328.2 59.7 336.8 58.3 Q 362.7 54.1 371.4 52.6 Q 397.3 47.8 405.9 46.1 Q 431.8 41.0 440.5 39.3 Q 466.4 34.1 475.0 32.3 Q 500.9 27.1 509.5 25.4 Q 535.5 20.3 544.1 18.6 Q 570.0 13.9 578.6 12.5 Q 604.5 8.5 613.2 7.4 Q 639.1 4.5 647.7 3.8 Q 673.6 2.4 682.3 2.2 Q 708.2 2.4 716.8 2.9 Q 742.7 4.7 751.4 5.6" fill="none" stroke="#1a56db" strokeWidth="1.05" strokeOpacity="0.55" strokeLinecap="round"/>
+              <path d="M 0.0 60.3 Q 17.3 62.3 25.9 63.3 Q 51.8 66.3 60.5 67.3 Q 86.4 70.3 95.0 71.2 Q 120.9 73.8 129.5 74.6 Q 155.5 76.6 164.1 77.1 Q 190.0 78.0 198.6 78.0 Q 224.5 77.6 233.2 77.0 Q 259.1 74.9 267.7 73.9 Q 293.6 70.2 302.3 68.7 Q 328.2 63.8 336.8 61.9 Q 362.7 56.0 371.4 53.9 Q 397.3 47.4 405.9 45.1 Q 431.8 38.4 440.5 36.1 Q 466.4 29.3 475.0 27.1 Q 500.9 20.5 509.5 18.4 Q 535.5 12.4 544.1 10.7 Q 570.0 5.7 578.6 4.4 Q 604.5 1.0 613.2 0.4 Q 639.1 -1.0 647.7 -1.0 Q 673.6 -0.1 682.3 0.7 Q 708.2 3.9 716.8 5.4 Q 742.7 10.8 751.4 13.0" fill="none" stroke="#1a56db" strokeWidth="1.05" strokeOpacity="0.50" strokeLinecap="round"/>
+              <path d="M 0.0 67.3 Q 17.3 69.2 25.9 70.1 Q 51.8 72.8 60.5 73.7 Q 86.4 76.4 95.0 77.2 Q 120.9 79.4 129.5 80.0 Q 155.5 81.5 164.1 81.8 Q 190.0 82.1 198.6 81.9 Q 224.5 80.8 233.2 80.1 Q 259.1 77.6 267.7 76.5 Q 293.6 72.7 302.3 71.2 Q 328.2 66.5 336.8 64.7 Q 362.7 59.3 371.4 57.4 Q 397.3 51.5 405.9 49.4 Q 431.8 43.2 440.5 41.1 Q 466.4 34.7 475.0 32.6 Q 500.9 26.3 509.5 32.6 Q 535.5 18.5 544.1 16.8 Q 570.0 11.9 578.6 10.6 Q 604.5 7.3 613.2 6.5 Q 639.1 4.9 647.7 4.8 Q 673.6 5.2 682.3 5.8 Q 708.2 8.2 716.8 9.5 Q 742.7 13.8 751.4 15.6" fill="none" stroke="#93c5fd" strokeWidth="0.80" strokeOpacity="0.48" strokeLinecap="round"/>
+              <path d="M 0.0 82.1 Q 17.3 84.6 25.9 85.9 Q 51.8 89.7 60.5 90.9 Q 86.4 94.4 95.0 95.4 Q 120.9 98.2 129.5 98.9 Q 155.5 100.6 164.1 100.8 Q 190.0 100.9 198.6 100.6 Q 224.5 99.0 233.2 98.1 Q 259.1 95.0 267.7 93.6 Q 293.6 89.0 302.3 87.2 Q 328.2 81.4 336.8 79.3 Q 362.7 72.5 371.4 70.1 Q 397.3 62.5 405.9 59.8 Q 431.8 51.5 440.5 48.6 Q 466.4 39.9 475.0 37.0 Q 500.9 28.3 509.5 25.5 Q 535.5 17.3 544.1 14.8 Q 570.0 7.8 578.6 5.9 Q 604.5 0.5 613.2 -0.8 Q 639.1 -4.0 647.7 -4.6 Q 673.6 -5.5 682.3 -5.2 Q 708.2 -3.7 716.8 -2.7 Q 742.7 1.3 751.4 3.1" fill="none" stroke="#93c5fd" strokeWidth="0.80" strokeOpacity="0.46" strokeLinecap="round"/>
+              <path d="M 0.0 99.0 Q 17.3 102.8 25.9 104.7 Q 51.8 110.1 60.5 111.8 Q 86.4 116.4 95.0 117.6 Q 120.9 120.8 129.5 121.4 Q 155.5 122.5 164.1 122.4 Q 190.0 121.1 198.6 120.1 Q 224.5 116.4 233.2 114.7 Q 259.1 108.6 267.7 106.2 Q 293.6 98.2 302.3 95.1 Q 328.2 85.4 336.8 81.9 Q 362.7 70.8 371.4 66.9 Q 397.3 54.8 405.9 50.7 Q 431.8 38.2 440.5 34.0 Q 466.4 21.7 475.0 17.7 Q 500.9 6.4 509.5 3.0 Q 535.5 -6.3 544.1 -8.9 Q 570.0 -15.5 578.6 -17.0 Q 604.5 -20.2 613.2 -20.5 Q 639.1 -20.0 647.7 -19.0 Q 673.6 -14.6 682.3 -12.3 Q 708.2 -4.2 716.8 -0.6 Q 742.7 11.1 751.4 15.8" fill="none" stroke="#93c5fd" strokeWidth="1.30" strokeOpacity="0.44" strokeLinecap="round"/>
+              <path d="M 0.0 103.2 Q 17.3 105.7 25.9 106.9 Q 51.8 110.3 60.5 111.3 Q 86.4 113.8 95.0 114.4 Q 120.9 115.6 129.5 115.6 Q 155.5 115.2 164.1 114.6 Q 190.0 112.5 198.6 111.4 Q 224.5 107.6 233.2 106.0 Q 259.1 100.9 267.7 98.9 Q 293.6 92.7 302.3 90.4 Q 328.2 83.2 336.8 80.6 Q 362.7 72.7 371.4 69.9 Q 397.3 61.5 405.9 58.7 Q 431.8 50.2 440.5 47.5 Q 466.4 39.6 475.0 37.1 Q 500.9 30.4 509.5 28.5 Q 535.5 23.6 544.1 22.4 Q 570.0 19.9 578.6 19.6 Q 604.5 19.6 613.2 20.2 Q 639.1 22.9 647.7 24.3 Q 673.6 29.6 682.3 32.0 Q 708.2 39.7 716.8 42.8 Q 742.7 52.9 751.4 56.7" fill="none" stroke="#93c5fd" strokeWidth="0.80" strokeOpacity="0.42" strokeLinecap="round"/>
+              <path d="M 0.0 110.8 Q 17.3 112.6 25.9 113.5 Q 51.8 115.7 60.5 116.3 Q 86.4 117.6 95.0 117.7 Q 120.9 117.9 129.5 117.6 Q 155.5 116.5 164.1 115.8 Q 190.0 113.4 198.6 112.4 Q 224.5 109.1 233.2 107.7 Q 259.1 103.5 267.7 102.0 Q 293.6 97.0 302.3 95.2 Q 328.2 89.5 336.8 87.4 Q 362.7 81.1 371.4 78.9 Q 397.3 72.1 405.9 69.8 Q 431.8 62.9 440.5 60.7 Q 466.4 54.2 475.0 52.3 Q 500.9 46.8 509.5 45.2 Q 535.5 41.2 544.1 40.2 Q 570.0 37.8 578.6 37.4 Q 604.5 36.8 613.2 37.1 Q 639.1 38.4 647.7 39.2 Q 673.6 42.5 682.3 44.0 Q 708.2 49.1 716.8 51.2 Q 742.7 58.2 751.4 61.0" fill="none" stroke="#93c5fd" strokeWidth="0.80" strokeOpacity="0.40" strokeLinecap="round"/>
+              <path d="M 0.0 117.6 Q 17.3 119.5 25.9 120.3 Q 51.8 122.4 60.5 122.9 Q 86.4 123.8 95.0 123.8 Q 120.9 123.5 129.5 123.1 Q 155.5 121.4 164.1 120.5 Q 190.0 117.7 198.6 116.5 Q 224.5 112.5 233.2 111.0 Q 259.1 106.1 267.7 104.3 Q 293.6 98.5 302.3 96.3 Q 328.2 89.7 336.8 87.3 Q 362.7 79.9 371.4 77.4 Q 397.3 69.8 405.9 67.3 Q 431.8 59.9 440.5 57.5 Q 466.4 51.0 475.0 49.1 Q 500.9 43.9 509.5 42.6 Q 535.5 39.2 544.1 38.5 Q 570.0 37.1 578.6 37.1 Q 604.5 37.8 613.2 38.5 Q 639.1 41.3 647.7 42.7 Q 673.6 47.7 682.3 49.8 Q 708.2 56.9 716.8 59.8 Q 742.7 68.8 751.4 72.3" fill="none" stroke="#93c5fd" strokeWidth="0.80" strokeOpacity="0.38" strokeLinecap="round"/>
+              <path d="M 0.0 131.9 Q 17.3 133.3 25.9 133.7 Q 51.8 134.6 60.5 134.5 Q 86.4 133.6 95.0 133.0 Q 120.9 130.3 129.5 129.0 Q 155.5 124.7 164.1 123.0 Q 190.0 117.3 198.6 115.1 Q 224.5 108.2 233.2 105.7 Q 259.1 97.8 267.7 95.1 Q 293.6 86.5 302.3 83.5 Q 328.2 74.6 336.8 71.7 Q 362.7 63.0 371.4 60.2 Q 397.3 52.4 405.9 50.1 Q 431.8 44.0 440.5 42.4 Q 466.4 38.6 475.0 37.9 Q 500.9 36.9 509.5 37.2 Q 535.5 39.2 544.1 40.5 Q 570.0 45.5 578.6 47.8 Q 604.5 55.5 613.2 58.7 Q 639.1 69.0 647.7 72.9 Q 673.6 85.4 682.3 90.0 Q 708.2 104.1 716.8 109.1 Q 742.7 124.3 751.4 129.4" fill="none" stroke="#93c5fd" strokeWidth="0.80" strokeOpacity="0.36" strokeLinecap="round"/>
+              <path d="M 0.0 142.2 Q 17.3 143.6 25.9 144.1 Q 51.8 145.3 60.5 145.3 Q 86.4 145.1 95.0 144.7 Q 120.9 143.1 129.5 142.3 Q 155.5 139.4 164.1 138.1 Q 190.0 134.0 198.6 132.4 Q 224.5 127.0 233.2 124.9 Q 259.1 118.3 267.7 115.8 Q 293.6 108.0 302.3 105.2 Q 328.2 96.5 336.8 93.5 Q 362.7 84.4 371.4 81.4 Q 397.3 72.5 405.9 69.7 Q 431.8 61.7 440.5 59.4 Q 466.4 52.9 475.0 51.1 Q 500.9 46.4 509.5 45.3 Q 535.5 42.7 544.1 42.3 Q 570.0 42.0 578.6 42.4 Q 604.5 44.5 613.2 45.7 Q 639.1 50.3 647.7 52.4 Q 673.6 59.6 682.3 62.6 Q 708.2 72.3 716.8 76.0 Q 742.7 87.9 751.4 92.3" fill="none" stroke="#93c5fd" strokeWidth="0.80" strokeOpacity="0.34" strokeLinecap="round"/>
+              <path d="M 0.0 155.7 Q 17.3 156.6 25.9 156.8 Q 51.8 156.8 60.5 156.5 Q 86.4 154.9 95.0 154.1 Q 120.9 151.0 129.5 149.6 Q 155.5 145.1 164.1 143.2 Q 190.0 137.2 198.6 134.8 Q 224.5 127.3 233.2 124.5 Q 259.1 115.6 267.7 112.4 Q 293.6 102.4 302.3 99.0 Q 328.2 88.4 336.8 84.9 Q 362.7 74.5 371.4 71.2 Q 397.3 61.7 405.9 58.8 Q 431.8 50.8 440.5 48.6 Q 466.4 42.6 475.0 41.1 Q 500.9 37.5 509.5 36.9 Q 535.5 35.9 544.1 36.2 Q 570.0 38.0 578.6 39.3 Q 604.5 44.0 613.2 46.3 Q 639.1 54.1 647.7 57.3 Q 673.6 68.1 682.3 72.3 Q 708.2 85.8 716.8 90.8 Q 742.7 106.4 751.4 112.0" fill="none" stroke="#93c5fd" strokeWidth="1.30" strokeOpacity="0.32" strokeLinecap="round"/>
+              <path d="M 0.0 156.4 Q 17.3 156.6 25.9 156.5 Q 51.8 155.6 60.5 155.0 Q 86.4 152.6 95.0 151.5 Q 120.9 147.6 129.5 146.0 Q 155.5 140.8 164.1 138.7 Q 190.0 132.0 198.6 129.5 Q 224.5 121.5 233.2 118.6 Q 259.1 109.6 267.7 106.4 Q 293.6 96.9 302.3 93.8 Q 328.2 84.5 336.8 81.5 Q 362.7 73.2 371.4 70.8 Q 397.3 64.2 405.9 62.5 Q 431.8 58.1 440.5 57.3 Q 466.4 55.5 475.0 55.5 Q 500.9 56.5 509.5 57.5 Q 535.5 61.3 544.1 63.2 Q 570.0 69.8 578.6 72.7 Q 604.5 82.1 613.2 85.8 Q 639.1 97.8 647.7 102.3 Q 673.6 116.4 682.3 121.5 Q 708.2 137.1 716.8 142.5 Q 742.7 158.7 751.4 164.1" fill="none" stroke="#93c5fd" strokeWidth="0.80" strokeOpacity="0.30" strokeLinecap="round"/>
+              <path d="M 0.0 155.0 Q 17.3 154.6 25.9 154.2 Q 51.8 152.5 60.5 151.7 Q 86.4 148.9 95.0 147.7 Q 120.9 143.7 129.5 142.1 Q 155.5 136.9 164.1 135.0 Q 190.0 128.7 198.6 126.4 Q 224.5 119.1 233.2 116.6 Q 259.1 108.7 267.7 106.1 Q 293.6 98.2 302.3 95.7 Q 328.2 88.5 336.8 86.4 Q 362.7 80.5 371.4 79.0 Q 397.3 74.9 405.9 74.0 Q 431.8 72.1 440.5 72.0 Q 466.4 72.3 475.0 72.9 Q 500.9 75.6 509.5 77.0 Q 535.5 81.9 544.1 84.1 Q 570.0 91.3 578.6 94.3 Q 604.5 103.7 613.2 107.3 Q 639.1 118.7 647.7 122.9 Q 673.6 135.7 682.3 140.2 Q 708.2 153.8 716.8 158.4 Q 742.7 171.9 751.4 176.3" fill="none" stroke="#93c5fd" strokeWidth="0.80" strokeOpacity="0.28" strokeLinecap="round"/>
+              <path d="M 0.0 163.5 Q 17.3 163.1 25.9 162.7 Q 51.8 161.2 60.5 160.4 Q 86.4 157.7 95.0 156.6 Q 120.9 152.7 129.5 151.1 Q 155.5 145.9 164.1 143.9 Q 190.0 137.6 198.6 135.2 Q 224.5 127.9 233.2 125.4 Q 259.1 117.7 267.7 115.1 Q 293.6 107.7 302.3 105.4 Q 328.2 98.8 336.8 96.9 Q 362.7 91.8 371.4 90.5 Q 397.3 87.3 405.9 86.7 Q 431.8 85.4 440.5 85.5 Q 466.4 86.4 475.0 87.3 Q 500.9 90.4 509.5 92.0 Q 535.5 97.4 544.1 99.8 Q 570.0 107.5 578.6 110.6 Q 604.5 120.4 613.2 124.2 Q 639.1 135.8 647.7 139.9 Q 673.6 152.7 682.3 157.1 Q 708.2 170.2 716.8 174.5 Q 742.7 187.3 751.4 191.3" fill="none" stroke="#93c5fd" strokeWidth="0.80" strokeOpacity="0.26" strokeLinecap="round"/>
+            </svg>
+          </div>
+          <div style={{ position: 'relative', zIndex: 2, flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', padding: '6mm 16mm 0' }}>
+            <div className="wp-mono" style={{ fontSize: '11.5px', letterSpacing: '.2em', textTransform: 'uppercase', color: '#1a56db', fontWeight: 600, marginBottom: '5mm' }}>Thank You</div>
+            <div className="wp-serif" style={{ fontWeight: 700, fontSize: '48.3px', lineHeight: '1.21', color: '#061228', marginBottom: '7mm' }}>Thank you<br/>for reading.</div>
+            <p style={{ fontSize: '13.2px', color: '#475569', lineHeight: '1.87', maxWidth: '105mm', marginBottom: '9mm' }}>If you have any questions or would like to discuss these findings further, please don't hesitate to reach out to us.</p>
+            <div style={{ width: '60mm', height: '1px', background: 'var(--border)', marginBottom: '7mm' }}></div>
+            <div style={{ fontSize: '12.1px', color: '#334155', lineHeight: '2.09' }}>
+              <div>2nd Floor, Halkatti Icon, 14, Sankey Rd, Sadashiva Nagar, Guttahalli, Bengaluru, Karnataka 560003</div>
+              <div style={{ color: '#1a56db', fontWeight: 700, marginTop: '2mm' }}>+91 98452 63775</div>
+              <div style={{ marginTop: '1mm' }}>info@infopaceindia.com &nbsp;·&nbsp; infopaceindia.com</div>
             </div>
           </div>
-
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', padding: '12mm 16mm 12mm', display: 'flex', justifyContent: 'space-between', fontSize: '9.5px', color: '#64748b' }}>
-            <div>©2026 Infopace Management Pvt. Ltd. All Rights Reserved.</div>
-            <div>infopaceindia.com</div>
+          <div style={{ position: 'relative', zIndex: 2, padding: '0 16mm 14mm' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9.5px', color: '#94a3b8', letterSpacing: '.02em' }}>
+              <div>©2026 Infopace Management Pvt. Ltd. All Rights Reserved.</div>
+              <div>AI-Evaluated Report</div>
+            </div>
           </div>
         </div>
-
       </div>
     </div>
   );
