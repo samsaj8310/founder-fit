@@ -234,6 +234,9 @@ export default function DetailedReport({
             overflow: visible !important;
             background: #ffffff !important;
             display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            z-index: 99999 !important;
           }
           
           .detailed-report-header {
