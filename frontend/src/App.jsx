@@ -314,13 +314,9 @@ export default function App() {
     setScreen(SCREENS.QUIZ)
   }
 
-  const handleQuizComplete = async (answers, forceDashboard = false) => {
+  const handleQuizComplete = async (answers) => {
     const updated = { ...appState, answers }
     setAppState(updated)
-
-    if (forceDashboard) {
-      setScreen(SCREENS.DASHBOARD)
-    }
 
     // Save to Supabase
     const key = updated.role === 'A' ? 'founder_a' : 'founder_b'
@@ -330,9 +326,7 @@ export default function App() {
       const { error: upsertError } = await supabase.from('sessions').upsert({ id: updated.sessionId, [key]: payload }, { onConflict: 'id' })
       if (upsertError) throw upsertError
       
-      if (!forceDashboard) {
-        setScreen(SCREENS.WAITING)
-      }
+      setScreen(SCREENS.WAITING)
     } catch (err) {
       setError(`Database Error: ${err.message || 'Verification failed. Please try again.'}`)
     }

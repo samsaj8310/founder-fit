@@ -118,20 +118,32 @@ export default function QuizScreen({ appState, onComplete, isWaiting }) {
             <span className="step-counter-text">{currentQ + 1} / {shuffledQuestions.length}</span>
           </div>
 
-          {/* ── WAITING STATE CARD OR QUESTION CARD ── */}
           {isWaiting ? (
             <div className="form-card-wrapper" style={{ textAlign: 'center', padding: '60px 40px' }}>
               <div className="waiting-pulse" style={{ margin: '0 auto 24px' }} />
               <h2 className="form-card-title">Assessment Complete! 🎉</h2>
               <p className="form-card-sub" style={{ marginBottom: '24px' }}>Your data is secured. Waiting for your co-founder to finish...</p>
               <div style={{ fontSize: '11px', fontWeight: 800, color: '#0066FF', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '32px' }}>Checking database every 5 seconds...</div>
-              <button
-                className="btn-submit-action"
-                style={{ background: '#0F172A', color: '#fff' }}
-                onClick={() => onComplete(answers, true)}
-              >
-                👁 View My Individual Results
-              </button>
+              
+              <div style={{ background: '#F8FAFC', border: '1px solid #E2E8F0', borderRadius: '12px', padding: '16px', maxWidth: '480px', margin: '0 auto' }}>
+                <div style={{ fontSize: '11px', fontWeight: 800, color: '#64748B', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Invite your co-founder to take the test:</div>
+                <input 
+                  type="text" 
+                  readOnly 
+                  value={`${window.location.origin}${window.location.pathname}?session=${appState.sessionId}`}
+                  onClick={(e) => e.target.select()}
+                  style={{ width: '100%', padding: '10px 12px', border: '1px solid #CBD5E1', borderRadius: '8px', background: '#FFF', fontSize: '13px', textAlign: 'center', cursor: 'pointer', outline: 'none', color: '#334155' }}
+                />
+                <button 
+                  onClick={() => {
+                    navigator.clipboard.writeText(`${window.location.origin}${window.location.pathname}?session=${appState.sessionId}`);
+                    alert("Copied to clipboard!");
+                  }}
+                  style={{ marginTop: '10px', width: '100%', padding: '10px 16px', background: '#0F172A', color: '#FFF', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: 700, cursor: 'pointer' }}
+                >
+                  🔗 Copy Invite Link
+                </button>
+              </div>
             </div>
           ) : (
             <div className="form-card-wrapper" style={{ maxWidth: '760px' }}>
