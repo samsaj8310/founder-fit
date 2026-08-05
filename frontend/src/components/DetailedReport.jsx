@@ -154,7 +154,7 @@ export default function DetailedReport({
 
         .wp-page, .page {
           width: 210mm;
-          min-height: 297mm;
+          height: 297mm;
           margin: 20px auto;
           background: #fff;
           box-shadow: 0 8px 40px rgba(15,30,60,0.12);
@@ -167,31 +167,64 @@ export default function DetailedReport({
         }
 
         @media print {
-          body > *:not(.detailed-report-overlay) {
+          @page {
+            size: A4 portrait;
+            margin: 0;
+          }
+          
+          html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            height: auto !important;
+            overflow: visible !important;
+            background: #ffffff !important;
+          }
+
+          .app-bg-glow, .global-menu-btn, .top-purple-bar, .dashboard-screen {
             display: none !important;
           }
-          .detailed-report-overlay {
-            position: static;
-            background: transparent;
-            display: block;
-            width: 100%;
-            height: auto;
-            overflow: visible;
+          
+          #root, .dashboard-wrapper {
+            margin: 0 !important;
+            padding: 0 !important;
+            height: auto !important;
+            overflow: visible !important;
           }
+
+          .detailed-report-overlay {
+            position: absolute !important;
+            left: 0 !important;
+            top: 0 !important;
+            width: 100% !important;
+            height: auto !important;
+            overflow: visible !important;
+            background: #ffffff !important;
+            display: block !important;
+          }
+          
           .detailed-report-header {
             display: none !important;
           }
+          
           .detailed-report-body {
-            display: block;
-            padding: 0;
-            margin: 0;
-            background: transparent;
-            overflow: visible;
+            display: block !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            background: transparent !important;
+            overflow: visible !important;
           }
+          
           .wp-page, .page {
-            margin: 0;
-            box-shadow: none;
-            page-break-after: always;
+            width: 210mm !important;
+            height: 297mm !important;
+            margin: 0 !important;
+            padding: 15mm 16mm 12mm !important;
+            page-break-after: always !important;
+            page-break-inside: avoid !important;
+            box-shadow: none !important;
+            background: #ffffff !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
           }
         }
 
