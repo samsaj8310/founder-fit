@@ -1,6 +1,7 @@
 import React from 'react';
 import RadarChart from './dashboard/RadarChart';
 import LineChart from './dashboard/LineChart';
+import { LOGO_BASE64 } from '../utils/logo';
 
 export default function DetailedReport({ 
   onClose,
@@ -138,13 +139,18 @@ export default function DetailedReport({
           padding: 0;
         }
 
-        .detailed-report-overlay {
-          font-family: 'Inter', sans-serif;
+        .detailed-report-overlay, .wp-page, .page {
+          font-family: 'Inter', sans-serif !important;
           color: var(--ink);
         }
 
-        .mono { font-family: 'IBM Plex Mono', monospace; }
-        .serif { font-family: 'Playfair Display', serif; }
+        .mono, .wp-mono, .pg-num, .stat-box .n, .sc {
+          font-family: 'IBM Plex Mono', monospace !important;
+        }
+
+        .serif, .wp-serif, h3.sec, .persona-name, .pg-title {
+          font-family: 'Playfair Display', serif !important;
+        }
 
         .wp-page, .page {
           width: 210mm;
@@ -159,9 +165,6 @@ export default function DetailedReport({
           page-break-after: always;
           overflow: hidden;
         }
-
-        .wp-serif { font-family: 'Playfair Display', serif; }
-        .wp-mono { font-family: 'IBM Plex Mono', monospace; }
 
         @media print {
           body > *:not(.detailed-report-overlay) {
@@ -202,14 +205,10 @@ export default function DetailedReport({
         }
 
         .brand {
-          font-size: 11.6px;
-          font-weight: 700;
-          letter-spacing: .14em;
-          color: var(--b900);
-          text-transform: uppercase;
+          display: flex;
+          align-items: center;
         }
 
-        .brand span { color: var(--b500); }
         .pg-num { font-size: 11.02px; color: var(--inkL); letter-spacing: .08em; }
 
         .pg-ftr {
@@ -311,7 +310,6 @@ export default function DetailedReport({
         }
 
         .stat-box .n {
-          font-family: 'IBM Plex Mono', monospace;
           font-size: 20px;
           font-weight: 700;
           color: var(--b700);
@@ -327,7 +325,6 @@ export default function DetailedReport({
 
         .gauge-wrap { display: flex; align-items: center; gap: 30px; margin: 10px 0; }
         .gauge-num {
-          font-family: 'IBM Plex Mono', monospace;
           font-size: 60.32px;
           font-weight: 700;
           fill: var(--b900);
@@ -349,13 +346,12 @@ export default function DetailedReport({
           font-size: 20.88px;
           font-weight: 700;
           color: var(--b900);
-          font-family: 'Playfair Display', serif;
         }
 
         .dim-block { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--border); }
         .dim-block:last-child { border-bottom: none; }
         .dim-score-col { width: 66px; flex-shrink: 0; text-align: center; }
-        .dim-score-col .n { font-family: 'IBM Plex Mono', monospace; font-size: 25.52px; font-weight: 700; }
+        .dim-score-col .n { font-size: 25.52px; font-weight: 700; }
         .dim-score-col .band { font-size: 8.7px; text-transform: uppercase; letter-spacing: .04em; color: var(--inkL); margin-top: 1px; }
         .dim-body { flex: 1; }
         .dim-name { font-size: 13.92px; font-weight: 700; color: var(--b900); margin-bottom: 2px; }
@@ -366,7 +362,7 @@ export default function DetailedReport({
         .glance-table td { padding: 6px 8px; font-size: 11.37px; border-bottom: 1px solid var(--border); }
         .glance-table .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 7px; }
         .glance-table .nm { font-weight: 600; color: var(--b900); }
-        .glance-table .sc { font-family: 'IBM Plex Mono', monospace; font-weight: 700; text-align: right; }
+        .glance-table .sc { font-weight: 700; text-align: right; }
 
         .action-item { display: flex; gap: 11px; padding: 11px 0; border-bottom: 1px solid var(--border); }
         .action-item:last-child { border-bottom: none; }
@@ -416,8 +412,8 @@ export default function DetailedReport({
         {/* ================= PAGE 1: COVER PAGE ================= */}
         <div className="wp-page" style={{ border: '1px solid var(--border)' }}>
           <div style={{ padding: '14mm 16mm 0' }}>
-            <div className="brand" style={{ display: 'flex', alignItems: 'center', gap: '9px' }}>
-              <span style={{ fontSize: '18px', fontWeight: 800, color: '#1a56db' }}>FounderSync Assessment Report</span>
+            <div className="brand">
+              <img src={LOGO_BASE64} alt="Infopace" style={{ height: '56px' }} />
             </div>
           </div>
 
@@ -445,8 +441,8 @@ export default function DetailedReport({
         <div className="wp-page">
           <div style={{ padding: '16mm 16mm 12mm', display: 'flex', flexDirection: 'column', minHeight: '297mm' }}>
             <div className="pg-hdr">
-              <div className="brand" style={{ display: 'flex', alignItems: 'center', gap: '9px' }}>
-                <span style={{ fontSize: '14px', fontWeight: 800, color: '#1a56db' }}>FounderSync</span>
+              <div className="brand">
+                <img src={LOGO_BASE64} alt="Infopace" style={{ height: '56px' }} />
               </div>
               <div className="pg-num wp-mono">02 / 12</div>
             </div>
@@ -511,8 +507,8 @@ export default function DetailedReport({
         <div className="wp-page">
           <div style={{ padding: '16mm 16mm 12mm', display: 'flex', flexDirection: 'column', minHeight: '297mm' }}>
             <div className="pg-hdr">
-              <div className="brand" style={{ display: 'flex', alignItems: 'center', gap: '9px' }}>
-                <span style={{ fontSize: '14px', fontWeight: 800, color: '#1a56db' }}>FounderSync</span>
+              <div className="brand">
+                <img src={LOGO_BASE64} alt="Infopace" style={{ height: '56px' }} />
               </div>
               <div className="pg-num wp-mono">03 / 12</div>
             </div>
@@ -541,7 +537,7 @@ export default function DetailedReport({
             <div style={{ display: 'flex', gap: '5mm', padding: '4.5mm 0', borderBottom: '1px solid var(--border)' }}>
               <div style={{ width: '3px', background: '#1a56db', borderRadius: '2px', flexShrink: 0 }}></div>
               <div>
-                <div style={{ fontWeight: 700, fontSize: '14.4px', color: '#0f172a', marginBottom: '1.5mm' }}>Creative Innovation Index</div>
+                <div style={{ fontWeight: 700, fontSize: '14.4px', color: '#1a56db', marginBottom: '1.5mm' }}>Creative Innovation Index</div>
                 <div style={{ fontSize: '11.8px', color: '#475569', lineHeight: 1.76 }}>Measures innovation capability by assessing creativity, problem-solving and adaptability, assisting individuals and organizations strengthen their innovation potential.</div>
               </div>
             </div>
@@ -570,8 +566,8 @@ export default function DetailedReport({
         {/* ================= PAGE 4: EXECUTIVE SUMMARY ================= */}
         <div className="page">
           <div className="pg-hdr">
-            <div className="brand" style={{ display: 'flex', alignItems: 'center', gap: '9px' }}>
-              <span style={{ fontSize: '14px', fontWeight: 800, color: '#1a56db' }}>FounderSync</span>
+            <div className="brand">
+              <img src={LOGO_BASE64} alt="Infopace" style={{ height: '56px' }} />
             </div>
             <div className="pg-num mono">04 / 12</div>
           </div>
@@ -585,7 +581,7 @@ export default function DetailedReport({
               <path d="M 30 130 A 100 100 0 0 1 230 130" fill="none" stroke="#e2e8f0" strokeWidth="18" strokeLinecap="round"/>
               <path d={getGaugePath(overall)} fill="none" stroke="#1a56db" strokeWidth="18" strokeLinecap="round"/>
               <text x="130" y="108" textAnchor="middle" className="gauge-num">{overall}</text>
-              <text x="130" y="130" text-anchor="middle" className="gauge-label mono">FIT SCORE / 100</text>
+              <text x="130" y="130" textAnchor="middle" className="gauge-label mono">FIT SCORE / 100</text>
             </svg>
             <div>
               <div className="tag-pill">{getFitPill(overall)}</div>
@@ -631,8 +627,8 @@ export default function DetailedReport({
         {/* ================= PAGE 5: DIMENSION BREAKDOWN I ================= */}
         <div className="page">
           <div className="pg-hdr">
-            <div className="brand" style={{ display: 'flex', alignItems: 'center', gap: '9px' }}>
-              <span style={{ fontSize: '14px', fontWeight: 800, color: '#1a56db' }}>FounderSync</span>
+            <div className="brand">
+              <img src={LOGO_BASE64} alt="Infopace" style={{ height: '56px' }} />
             </div>
             <div className="pg-num mono">05 / 12</div>
           </div>
@@ -670,8 +666,8 @@ export default function DetailedReport({
         {/* ================= PAGE 6: DIMENSION BREAKDOWN II ================= */}
         <div className="page">
           <div className="pg-hdr">
-            <div className="brand" style={{ display: 'flex', alignItems: 'center', gap: '9px' }}>
-              <span style={{ fontSize: '14px', fontWeight: 800, color: '#1a56db' }}>FounderSync</span>
+            <div className="brand">
+              <img src={LOGO_BASE64} alt="Infopace" style={{ height: '56px' }} />
             </div>
             <div className="pg-num mono">06 / 12</div>
           </div>
@@ -709,8 +705,8 @@ export default function DetailedReport({
         {/* ================= PAGE 7: STRATEGIC ALIGNMENT RADAR ================= */}
         <div className="page">
           <div className="pg-hdr">
-            <div className="brand" style={{ display: 'flex', alignItems: 'center', gap: '9px' }}>
-              <span style={{ fontSize: '14px', fontWeight: 800, color: '#1a56db' }}>FounderSync</span>
+            <div className="brand">
+              <img src={LOGO_BASE64} alt="Infopace" style={{ height: '56px' }} />
             </div>
             <div className="pg-num mono">07 / 12</div>
           </div>
@@ -760,8 +756,8 @@ export default function DetailedReport({
         {/* ================= PAGE 8: RISK MAP ================= */}
         <div className="page">
           <div className="pg-hdr">
-            <div className="brand" style={{ display: 'flex', alignItems: 'center', gap: '9px' }}>
-              <span style={{ fontSize: '14px', fontWeight: 800, color: '#1a56db' }}>FounderSync</span>
+            <div className="brand">
+              <img src={LOGO_BASE64} alt="Infopace" style={{ height: '56px' }} />
             </div>
             <div className="pg-num mono">08 / 12</div>
           </div>
@@ -822,8 +818,8 @@ export default function DetailedReport({
         {/* ================= PAGE 9: ACTION PLAN & RECOMMENDATIONS ================= */}
         <div className="page">
           <div className="pg-hdr">
-            <div className="brand" style={{ display: 'flex', alignItems: 'center', gap: '9px' }}>
-              <span style={{ fontSize: '14px', fontWeight: 800, color: '#1a56db' }}>FounderSync</span>
+            <div className="brand">
+              <img src={LOGO_BASE64} alt="Infopace" style={{ height: '56px' }} />
             </div>
             <div className="pg-num mono">09 / 12</div>
           </div>
@@ -869,9 +865,11 @@ export default function DetailedReport({
         {/* ================= PAGE 10: LEGAL/DISCLAIMER ================= */}
         <div className="wp-page" style={{ border: '1px solid var(--border)' }}>
           <div style={{ padding: '16mm 16mm 12mm', display: 'flex', flexDirection: 'column', minHeight: '297mm' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '9mm' }}>
-              <span style={{ fontSize: '14px', fontWeight: 800, color: '#1a56db' }}>FounderSync</span>
-              <div className="wp-mono" style={{ fontSize: '10.3px', color: '#94a3b8' }}>10 / 12</div>
+            <div className="pg-hdr">
+              <div className="brand">
+                <img src={LOGO_BASE64} alt="Infopace" style={{ height: '56px' }} />
+              </div>
+              <div className="pg-num wp-mono">10 / 12</div>
             </div>
             
             <div className="wp-serif" style={{ fontSize: '28.7px', fontWeight: 700, color: '#061228', marginBottom: '8mm' }}>Disclaimer, Privacy and Terms</div>
@@ -919,8 +917,10 @@ export default function DetailedReport({
         <div className="wp-page">
           <div style={{ padding: '16mm 16mm 4mm', display: 'flex', flexDirection: 'column', minHeight: '297mm' }}>
             <div className="pg-hdr">
-              <span style={{ fontSize: '14px', fontWeight: 800, color: '#1a56db' }}>FounderSync</span>
-              <div className="wp-mono" style={{ fontSize: '10.3px', color: '#94a3b8' }}>11 / 12</div>
+              <div className="brand">
+                <img src={LOGO_BASE64} alt="Infopace" style={{ height: '56px' }} />
+              </div>
+              <div className="pg-num wp-mono">11 / 12</div>
             </div>
 
             <div className="wp-serif" style={{ fontSize: '32px', fontWeight: 700, color: '#061228', marginBottom: '4mm' }}>About Infopace</div>
