@@ -274,7 +274,7 @@ export default function Dashboard({ appState, shareLink, onGoBack }) {
 
   return (
     <div className="dashboard-wrapper" ref={dashboardRef}>
-      <div className="top-purple-bar">Founder-Co-Founder Compatibility Assessment</div>
+      <div className="top-purple-bar" style={{ fontWeight: 'bold' }}>Founder-Co-Founder Compatibility Assessment</div>
       
       <div className="dashboard-screen">
         <header className="dash-header">
