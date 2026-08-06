@@ -16,7 +16,7 @@ import StatusTable from './dashboard/StatusTable'
 import DetailedReport from './DetailedReport'
 
 export default function Dashboard({ appState, shareLink, onGoBack }) {
-  const { role, name, otherData, answers, sessionId, profile } = appState
+  const { role, name, otherData, answers, sessionId, profile, paid } = appState
   const [isPdfGenerating, setIsPdfGenerating] = useState(false)
   const [showCheckoutModal, setShowCheckoutModal] = useState(false)
   const [showDetailedReport, setShowDetailedReport] = useState(false)
@@ -43,7 +43,7 @@ export default function Dashboard({ appState, shareLink, onGoBack }) {
   const topCat = sortedCats[0]
 
   // Payment status check
-  const isPaid = true
+  const isPaid = !!(paid || otherData?.paid)
 
   // Status mapping helpers
   const getStatus = (val) => val >= 80 ? 'Strong' : val >= 60 ? 'Medium' : 'Work'

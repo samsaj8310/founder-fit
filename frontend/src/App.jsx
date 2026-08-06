@@ -21,7 +21,8 @@ export default function App() {
     sessionId: '',
     answers: {},
     otherData: null,
-    history: []
+    history: [],
+    paid: false
   })
 
   // 1. Detect co-founder B and hydrate state from localStorage on mount
@@ -102,6 +103,7 @@ export default function App() {
       answers: me?.answers || {},
       profile: me?.profile || {},
       otherData: other || null,
+      paid: !!(me?.paid || other?.paid),
       isViewingHistory: true
     }))
 
@@ -221,10 +223,12 @@ export default function App() {
                 if (updates.founder_a && s.role === 'A') {
                   newState.answers = updates.founder_a.answers
                   newState.profile = updates.founder_a.profile
+                  newState.paid = true
                   if (updates.founder_b) newState.otherData = updates.founder_b
                 } else if (updates.founder_b && s.role === 'B') {
                   newState.answers = updates.founder_b.answers
                   newState.profile = updates.founder_b.profile
+                  newState.paid = true
                   if (updates.founder_a) newState.otherData = updates.founder_a
                 }
                 return newState
@@ -268,12 +272,16 @@ export default function App() {
             setAppState(s => {
               const otherChanged = JSON.stringify(s.otherData) !== JSON.stringify(data[otherKey])
               const meChanged = JSON.stringify(s.answers) !== JSON.stringify(data[meKey]?.answers)
-              if (otherChanged || meChanged) {
+              const currentPaid = !!(data[meKey]?.paid || data[otherKey]?.paid)
+              const paidChanged = s.paid !== currentPaid
+              
+              if (otherChanged || meChanged || paidChanged) {
                 return { 
                   ...s, 
                   answers: data[meKey]?.answers || s.answers,
                   profile: data[meKey]?.profile || s.profile,
-                  otherData: data[otherKey] 
+                  otherData: data[otherKey],
+                  paid: currentPaid
                 }
               }
               return s
