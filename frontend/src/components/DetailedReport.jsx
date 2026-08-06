@@ -530,20 +530,6 @@ export default function DetailedReport({
             <div style={{ fontWeight: 800, fontSize: '57.5px', color: '#061228', lineHeight: 1.1 }}>2026</div>
           </div>
         </div>
-          <div style={{ padding: '24mm 16mm 0', position: 'relative', zIndex: 1 }}>
-            <div className="wp-mono" style={{ fontSize: '11.5px', letterSpacing: '.2em', textTransform: 'uppercase', color: '#1a56db', fontWeight: 600, marginBottom: '6mm' }}>AI ASSESSMENT REPORT Â· DETAILED SYNERGY SUMMARY</div>
-            <div style={{ fontWeight: 800, fontSize: '50px', lineHeight: 1.08, color: '#061228', letterSpacing: '-.01em' }}>Co-Founder</div>
-            <div style={{ fontWeight: 800, fontSize: '50px', lineHeight: 1.08, color: '#1a56db', letterSpacing: '-.01em' }}>Compatibility Fit</div>
-            <div style={{ fontSize: '13.8px', fontWeight: 700, letterSpacing: '.05em', textTransform: 'uppercase', color: '#334155', marginTop: '8mm' }}>Prepared For: {nameA} & {nameB}</div>
-          </div>
-
-          <div style={{ flex: 1, minHeight: '120mm' }} />
-
-          <div style={{ position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', padding: '0 16mm 14mm' }}>
-            <div className="wp-mono" style={{ fontSize: '10.3px', color: '#94a3b8' }}>Prepared By Infopace Management Pvt. Ltd.</div>
-            <div style={{ fontWeight: 800, fontSize: '57.5px', color: '#061228', lineHeight: 1.1 }}>2026</div>
-          </div>
-        </div>
 
         {/* ================= PAGE 2: TABLE OF CONTENTS ================= */}
         <div className="wp-page">
