@@ -278,9 +278,6 @@ export default function Dashboard({ appState, shareLink, onGoBack }) {
       
       <div className="dashboard-screen">
         <header className="dash-header">
-          <div className="dash-logo" style={{ color: 'var(--brand-accent)', fontWeight: 800, fontSize: '20px' }}>
-            ⚡ FounderSync
-          </div>
           <div className="dash-founders">
             <div className="founder-pill pill-a"><div className="pill-dot dot-a" />{nameA}</div>
             <div className="founder-pill pill-b"><div className="pill-dot dot-b" />{nameB}</div>
