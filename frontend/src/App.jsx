@@ -25,24 +25,57 @@ export default function App() {
     paid: false
   })
 
-  // 1. Detect co-founder B and hydrate state from localStorage on mount
+  // 1. Detect co-founder B and hydrate state from Supabase / localStorage on mount
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const urlSession = params.get('session')
+    const urlRole = params.get('role')
     
     if (urlSession) {
-      const saved = localStorage.getItem(`foundersync_${urlSession}`)
-      if (saved) {
+      const isExplicitRoleB = urlRole === 'B'
+      
+      const loadSession = async () => {
         try {
-          const parsed = JSON.parse(saved)
-          setAppState(parsed.appState)
-          setScreen(parsed.screen)
-          return
+          const { data, error } = await supabase
+            .from('sessions')
+            .select('*')
+            .eq('id', urlSession)
+            .single()
+
+          if (!error && data) {
+            // Default to role B if explicit role=B OR session already has founder_a data
+            const role = isExplicitRoleB || (data.founder_a && !isExplicitRoleB) ? 'B' : 'A'
+            const meKey = role === 'A' ? 'founder_a' : 'founder_b'
+            const otherKey = role === 'A' ? 'founder_b' : 'founder_a'
+            
+            setAppState(s => ({
+              ...s,
+              role: role,
+              sessionId: urlSession,
+              name: data[meKey]?.name || s.name,
+              profile: data[meKey]?.profile || s.profile,
+              answers: data[meKey]?.answers || s.answers || {},
+              otherData: data[otherKey] || null,
+              paid: !!(data.founder_a?.paid || data.founder_b?.paid)
+            }))
+
+            if (data.founder_a?.answers && data.founder_b?.answers) {
+              setScreen(SCREENS.DASHBOARD)
+            } else if (data[meKey]?.answers) {
+              setScreen(SCREENS.WAITING)
+            } else {
+              setScreen(SCREENS.PROFILE)
+            }
+            return
+          }
         } catch (e) {
-          console.error("Failed to parse saved state", e)
+          console.error("Failed to fetch session on mount:", e)
         }
+
+        setAppState(s => ({ ...s, role: isExplicitRoleB ? 'B' : 'A', sessionId: urlSession }))
       }
-      setAppState(s => ({ ...s, role: 'B', sessionId: urlSession }))
+
+      loadSession()
     } else {
       const newSession = generateSessionId()
       setAppState(s => ({ ...s, role: 'A', sessionId: newSession }))
@@ -352,7 +385,7 @@ export default function App() {
     }
   }
 
-  const shareLink = `${window.location.origin}${window.location.pathname}?session=${appState.sessionId}`
+  const shareLink = `${window.location.origin}${window.location.pathname}?session=${appState.sessionId}&role=B`
 
   return (
     <>

@@ -316,8 +316,9 @@ export default function ProfileScreen({ appState, setAppState, shareLink, onStar
 
               {/* Co-Founder Shareable Link if Founder A */}
               {isB ? (
-                <div className="session-joined-badge" style={{ background: '#ECFDF5', color: '#047857', padding: '12px 16px', borderRadius: '10px', fontSize: '13px', fontWeight: 600 }}>
-                  ✅ Session detected — you're linked to your co-founder.
+                <div className="session-joined-badge" style={{ background: '#ECFDF5', color: '#047857', border: '1px solid #A7F3D0', padding: '14px 18px', borderRadius: '10px', fontSize: '14px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <span>🤝</span>
+                  <span>Joining session as <strong>Co-Founder B</strong> (Linked with {appState.otherData?.name ? <strong>{appState.otherData.name}</strong> : 'Founder A'})</span>
                 </div>
               ) : (
                 <div className="share-box" style={{ background: '#F8FAFC', border: '1px solid #E2E8F0' }}>

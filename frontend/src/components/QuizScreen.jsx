@@ -130,13 +130,13 @@ export default function QuizScreen({ appState, onComplete, isWaiting, onViewDash
                 <input 
                   type="text" 
                   readOnly 
-                  value={`${window.location.origin}${window.location.pathname}?session=${appState.sessionId}`}
+                  value={`${window.location.origin}${window.location.pathname}?session=${appState.sessionId}&role=B`}
                   onClick={(e) => e.target.select()}
                   style={{ width: '100%', padding: '10px 12px', border: '1px solid #CBD5E1', borderRadius: '8px', background: '#FFF', fontSize: '13px', textAlign: 'center', cursor: 'pointer', outline: 'none', color: '#334155' }}
                 />
                 <button 
                   onClick={() => {
-                    navigator.clipboard.writeText(`${window.location.origin}${window.location.pathname}?session=${appState.sessionId}`);
+                    navigator.clipboard.writeText(`${window.location.origin}${window.location.pathname}?session=${appState.sessionId}&role=B`);
                     alert("Copied to clipboard!");
                   }}
                   style={{ marginTop: '10px', width: '100%', padding: '10px 16px', background: '#0F172A', color: '#FFF', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: 700, cursor: 'pointer' }}
