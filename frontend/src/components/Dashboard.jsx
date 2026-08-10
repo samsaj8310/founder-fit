@@ -131,7 +131,7 @@ export default function Dashboard({ appState, shareLink, onGoBack }) {
       .from('sessions')
       .select(key)
       .eq('id', sessionId)
-      .single()
+      .maybeSingle()
 
     const currentFounderData = dbData?.[key] || {}
     const updatedPayload = { 
@@ -235,7 +235,7 @@ export default function Dashboard({ appState, shareLink, onGoBack }) {
           .from('sessions')
           .select(key)
           .eq('id', sessionId)
-          .single()
+          .maybeSingle()
           
         if (error) {
           console.error("Failed to check existing pdf_url:", error)

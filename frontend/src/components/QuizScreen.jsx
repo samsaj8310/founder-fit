@@ -65,7 +65,7 @@ export default function QuizScreen({ appState, onComplete, isWaiting, onViewDash
             <div className="sidebar-tag">FOUNDER COMPATIBILITY ASSESSMENT</div>
             
             <h1 className="sidebar-headline">
-              {isWaiting ? 'Assessment Complete!' : `Dimension: ${q.cat}`}
+              {isWaiting ? 'Assessment Complete!' : `Dimension: ${q?.cat || ''}`}
             </h1>
 
             <p className="sidebar-desc">
@@ -173,9 +173,9 @@ export default function QuizScreen({ appState, onComplete, isWaiting, onViewDash
 
               {/* Card Header: Category & Step */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '8px', background: cat.color + '15', color: cat.color, border: `1px solid ${cat.color}30`, fontSize: '12px', fontWeight: 800, letterSpacing: '1px', textTransform: 'uppercase' }}>
-                  <span>{cat.icon}</span>
-                  <span>{q.cat}</span>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '8px', background: (cat?.color || '#0066FF') + '15', color: cat?.color || '#0066FF', border: `1px solid ${cat?.color || '#0066FF'}30`, fontSize: '12px', fontWeight: 800, letterSpacing: '1px', textTransform: 'uppercase' }}>
+                  <span>{cat?.icon || '📋'}</span>
+                  <span>{q?.cat || ''}</span>
                 </div>
                 <span style={{ fontSize: '12px', fontWeight: 800, color: '#0066FF', letterSpacing: '1px', textTransform: 'uppercase' }}>
                   Question {currentQ + 1} of {shuffledQuestions.length}
@@ -184,15 +184,15 @@ export default function QuizScreen({ appState, onComplete, isWaiting, onViewDash
 
               {/* Question Text */}
               <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: '24px', fontWeight: 700, color: '#0F172A', lineHeight: 1.35, marginBottom: '28px' }}>
-                {q.text}
+                {q?.text || ''}
               </h2>
 
               {/* Options Grid */}
               <div className="options-grid" style={{ marginBottom: '32px' }}>
-                {q.opts.map((opt, i) => (
+                {q?.opts?.map((opt, i) => (
                   <button
                     key={i}
-                    className={`option-btn ${answers[q.id] === i ? (isA ? 'selected-a' : 'selected-b') : ''}`}
+                    className={`option-btn ${q?.id && answers[q.id] === i ? (isA ? 'selected-a' : 'selected-b') : ''}`}
                     onClick={() => handleSelect(i)}
                   >
                     <div className="option-letter">{letters[i]}</div>
@@ -211,7 +211,7 @@ export default function QuizScreen({ appState, onComplete, isWaiting, onViewDash
                   ← Back
                 </button>
                 <button
-                  disabled={answers[q.id] === undefined}
+                  disabled={!q?.id || answers[q.id] === undefined}
                   onClick={() => {
                     if (currentQ < shuffledQuestions.length - 1) setCurrentQ(i => i + 1)
                     else onComplete(answers)

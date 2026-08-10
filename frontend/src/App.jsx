@@ -40,7 +40,7 @@ export default function App() {
             .from('sessions')
             .select('*')
             .eq('id', urlSession)
-            .single()
+            .maybeSingle()
 
           if (!error && data) {
             // Default to role B if explicit role=B OR session already has founder_a data
@@ -224,7 +224,7 @@ export default function App() {
             .from('sessions')
             .select('*')
             .eq('id', sessionId)
-            .single()
+            .maybeSingle()
 
           if (fetchErr) throw fetchErr
           if (data) {
@@ -288,7 +288,7 @@ export default function App() {
           .from('sessions')
           .select('*')
           .eq('id', appState.sessionId)
-          .single()
+          .maybeSingle()
 
         if (pollError) return
         if (data) {
