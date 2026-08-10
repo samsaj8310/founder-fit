@@ -10,7 +10,7 @@ function shuffleArray(array) {
   return shuffled
 }
 
-export default function QuizScreen({ appState, onComplete, isWaiting }) {
+export default function QuizScreen({ appState, onComplete, isWaiting, onViewDashboard, onSimulateCoFounder }) {
   const [currentQ, setCurrentQ] = useState(0)
   const [answers, setAnswers] = useState({})
 
@@ -143,6 +143,25 @@ export default function QuizScreen({ appState, onComplete, isWaiting }) {
                 >
                   🔗 Copy Invite Link
                 </button>
+              </div>
+
+              <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '24px', maxWidth: '480px', margin: '24px auto 0' }}>
+                {onViewDashboard && (
+                  <button 
+                    onClick={onViewDashboard}
+                    style={{ flex: 1, minWidth: '200px', padding: '12px 20px', background: '#0066FF', color: '#FFF', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: 700, cursor: 'pointer', boxShadow: '0 4px 12px rgba(0, 102, 255, 0.25)' }}
+                  >
+                    📊 View My Dashboard
+                  </button>
+                )}
+                {onSimulateCoFounder && (
+                  <button 
+                    onClick={onSimulateCoFounder}
+                    style={{ flex: 1, minWidth: '200px', padding: '12px 20px', background: '#7C3AED', color: '#FFF', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: 700, cursor: 'pointer', boxShadow: '0 4px 12px rgba(124, 58, 237, 0.25)' }}
+                  >
+                    ⚡ Simulate Co-Founder (Demo)
+                  </button>
+                )}
               </div>
             </div>
           ) : (

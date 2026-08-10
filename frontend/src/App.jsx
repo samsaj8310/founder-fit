@@ -107,19 +107,14 @@ export default function App() {
       isViewingHistory: true
     }))
 
-    // both must have answers to show dashboard
-    const bothCompleted = !!(sessionData.founder_a?.answers && sessionData.founder_b?.answers)
+    // both or self must have answers to show dashboard
+    const hasMyAnswers = me?.answers && Object.keys(me.answers).length > 0
+    const hasOtherAnswers = other?.answers && Object.keys(other.answers).length > 0
     
-    if (bothCompleted) {
+    if (hasMyAnswers || hasOtherAnswers) {
       setScreen(SCREENS.DASHBOARD)
     } else {
-      const myAnswers = me?.answers
-      const hasMyAnswers = myAnswers && Object.keys(myAnswers).length > 0
-      if (hasMyAnswers) {
-        setScreen(SCREENS.WAITING)
-      } else {
-        setScreen(SCREENS.QUIZ)
-      }
+      setScreen(SCREENS.QUIZ)
     }
   }
 
@@ -302,20 +297,31 @@ export default function App() {
     return () => clearInterval(interval)
   }, [appState.sessionId, screen, appState.role])
 
-  // 4.5 Safety check: ensure dashboard is only shown when both users have completed the test
+  // 4.5 Safety check: ensure dashboard is shown if user has completed answers
   useEffect(() => {
     if (screen === SCREENS.DASHBOARD) {
       const hasMyAnswers = appState.answers && Object.keys(appState.answers).length > 0
       const hasOtherAnswers = appState.otherData?.answers && Object.keys(appState.otherData.answers).length > 0
       
-      if (!hasMyAnswers) {
+      if (!hasMyAnswers && !hasOtherAnswers) {
         setScreen(SCREENS.QUIZ)
-      } else if (!hasOtherAnswers) {
-        setScreen(SCREENS.WAITING)
       }
     }
   }, [screen, appState.answers, appState.otherData])
 
+  const handleSimulateCoFounder = () => {
+    const demo = generateDemoAnswers()
+    const mockOther = {
+      name: appState.role === 'A' ? 'Co-Founder B (Simulated)' : 'Founder A (Simulated)',
+      answers: demo,
+      profile: { email: 'simulated@demo.com' }
+    }
+    setAppState(s => ({
+      ...s,
+      otherData: mockOther
+    }))
+    setScreen(SCREENS.DASHBOARD)
+  }
 
   const handleStartAssessment = (profileData) => {
     setAppState(s => ({ ...s, ...profileData }))
@@ -334,9 +340,15 @@ export default function App() {
       const { error: upsertError } = await supabase.from('sessions').upsert({ id: updated.sessionId, [key]: payload }, { onConflict: 'id' })
       if (upsertError) throw upsertError
       
-      setScreen(SCREENS.WAITING)
+      const hasOtherAnswers = updated.otherData?.answers && Object.keys(updated.otherData.answers).length > 0
+      if (hasOtherAnswers) {
+        setScreen(SCREENS.DASHBOARD)
+      } else {
+        setScreen(SCREENS.WAITING)
+      }
     } catch (err) {
       setError(`Database Error: ${err.message || 'Verification failed. Please try again.'}`)
+      setScreen(SCREENS.WAITING)
     }
   }
 
@@ -366,7 +378,15 @@ export default function App() {
           onSelectHistory={handleSelectHistorySession}
         />
       )}
-      {(screen === SCREENS.QUIZ || screen === SCREENS.WAITING) && <QuizScreen appState={appState} onComplete={handleQuizComplete} isWaiting={screen === SCREENS.WAITING} />}
+      {(screen === SCREENS.QUIZ || screen === SCREENS.WAITING) && (
+        <QuizScreen 
+          appState={appState} 
+          onComplete={handleQuizComplete} 
+          isWaiting={screen === SCREENS.WAITING} 
+          onViewDashboard={() => setScreen(SCREENS.DASHBOARD)}
+          onSimulateCoFounder={handleSimulateCoFounder}
+        />
+      )}
       {screen === SCREENS.DASHBOARD && <Dashboard appState={appState} shareLink={shareLink} onGoBack={handleGoBackFromHistory} />}
 
       {screen !== SCREENS.PROFILE && (
