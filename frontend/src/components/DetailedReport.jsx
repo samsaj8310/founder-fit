@@ -592,7 +592,6 @@ export default function DetailedReport({
             
             <div style={{ marginTop: 'auto', paddingTop: '6mm', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', fontSize: '9.5px', color: '#94a3b8' }}>
               <div>Â©2026 Infopace Management Pvt. Ltd. All Rights Reserved.</div>
-              <div>AI-Evaluated Report</div>
             </div>
           </div>
         </div>
@@ -652,7 +651,6 @@ export default function DetailedReport({
             
             <div style={{ marginTop: 'auto', paddingTop: '6mm', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', fontSize: '9.5px', color: '#94a3b8' }}>
               <div>Â©2026 Infopace Management Pvt. Ltd. All Rights Reserved.</div>
-              <div>AI-Evaluated Report</div>
             </div>
           </div>
         </div>
@@ -714,7 +712,6 @@ export default function DetailedReport({
 
           <div className="pg-ftr">
             <div>Â©2026 Infopace Management Pvt. Ltd. All Rights Reserved.</div>
-            <div>AI-Evaluated Report</div>
           </div>
         </div>
 
@@ -753,7 +750,6 @@ export default function DetailedReport({
 
           <div className="pg-ftr">
             <div>Â©2026 Infopace Management Pvt. Ltd. All Rights Reserved.</div>
-            <div>AI-Evaluated Report</div>
           </div>
         </div>
 
@@ -792,7 +788,6 @@ export default function DetailedReport({
 
           <div className="pg-ftr">
             <div>Â©2026 Infopace Management Pvt. Ltd. All Rights Reserved.</div>
-            <div>AI-Evaluated Report</div>
           </div>
         </div>
 
@@ -843,7 +838,6 @@ export default function DetailedReport({
 
           <div className="pg-ftr">
             <div>Â©2026 Infopace Management Pvt. Ltd. All Rights Reserved.</div>
-            <div>AI-Evaluated Report</div>
           </div>
         </div>
 
@@ -905,7 +899,6 @@ export default function DetailedReport({
 
           <div className="pg-ftr">
             <div>Â©2026 Infopace Management Pvt. Ltd. All Rights Reserved.</div>
-            <div>AI-Evaluated Report</div>
           </div>
         </div>
 
@@ -952,7 +945,6 @@ export default function DetailedReport({
 
           <div className="pg-ftr">
             <div>Â©2026 Infopace Management Pvt. Ltd. All Rights Reserved.</div>
-            <div>AI-Evaluated Report</div>
           </div>
         </div>
 
@@ -1005,7 +997,6 @@ export default function DetailedReport({
             <div style={{ marginTop: 'auto', paddingTop: '6mm', borderTop: '1px solid var(--border)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9.5px', color: '#94a3b8', letterSpacing: '.02em' }}>
                 <div>Â©2026 Infopace Management Pvt. Ltd. All Rights Reserved.</div>
-                <div>AI-Evaluated Report</div>
               </div>
             </div>
           </div>
@@ -1138,7 +1129,6 @@ export default function DetailedReport({
           <div style={{ position: 'relative', zIndex: 2, padding: '0 16mm 14mm' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9.5px', color: '#94a3b8', letterSpacing: '.02em' }}>
               <div>Â©2026 Infopace Management Pvt. Ltd. All Rights Reserved.</div>
-              <div>AI-Evaluated Report</div>
             </div>
           </div>
         </div>
