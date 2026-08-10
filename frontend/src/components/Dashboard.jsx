@@ -189,7 +189,8 @@ export default function Dashboard({ appState, shareLink, onGoBack }) {
       })
 
       if (!response.ok) {
-        throw new Error('Failed to retrieve order ID from payment server.')
+        const errData = await response.json().catch(() => ({}))
+        throw new Error(errData.error || errData.details || `Server responded with HTTP ${response.status}`)
       }
 
       const data = await response.json()
@@ -199,8 +200,34 @@ export default function Dashboard({ appState, shareLink, onGoBack }) {
         key: data.key_id,
         amount: data.amount,
         currency: 'INR',
+        name: 'FounderSync',
+        description: 'Compatibility Assessment & Report',
         order_id: data.order_id,
-        callback_url: data.callback_url, // Target Payment Hub
+        ...(data.callback_url ? { callback_url: data.callback_url } : {}),
+        handler: async function (paymentResponse) {
+          try {
+            const verifyRes = await fetch(`${backendUrl}/api/verify-payment`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                razorpay_payment_id: paymentResponse.razorpay_payment_id,
+                razorpay_order_id: paymentResponse.razorpay_order_id,
+                razorpay_signature: paymentResponse.razorpay_signature,
+                sessionId: sessionId
+              })
+            })
+
+            if (verifyRes.ok) {
+              alert('Payment successful! Your detailed report is now unlocked.')
+              window.location.reload()
+            } else {
+              window.location.href = `${window.location.pathname}?session=${sessionId}&payment=success`
+            }
+          } catch (e) {
+            console.error("Payment verification error:", e)
+            window.location.href = `${window.location.pathname}?session=${sessionId}&payment=success`
+          }
+        },
         prefill: {
           name: name || '',
           email: profile?.email || 'customer@example.com',
@@ -209,11 +236,15 @@ export default function Dashboard({ appState, shareLink, onGoBack }) {
         theme: { color: '#6c2bd9' }
       }
 
+      if (!window.Razorpay) {
+        throw new Error('Razorpay SDK failed to load. Please check your internet connection or ad-blocker.')
+      }
+
       const rzp = new window.Razorpay(options)
       rzp.open()
       setShowCheckoutModal(false)
     } catch (err) {
-      console.error(err)
+      console.error('Proceed To Payment Error:', err)
       alert(`Checkout initialization failed: ${err.message || err}`)
     } finally {
       setIsPdfGenerating(false)

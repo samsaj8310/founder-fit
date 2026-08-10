@@ -126,43 +126,74 @@ app.post('/api/create-payment', async (req, res) => {
       receipt: `rcpt_${sessionId}_${role}_${Date.now()}`
     });
 
-    // 2. Fetch session from Supabase
-    const { data: session, error: fetchErr } = await supabase
+    // 2. Fetch session from Supabase safely
+    const { data: session } = await supabase
       .from('sessions')
       .select('*')
       .eq('id', sessionId)
-      .single();
-
-    if (fetchErr || !session) {
-      return res.status(404).json({ error: 'Session not found in database.' });
-    }
+      .maybeSingle();
 
     // 3. Save order_id in founder object JSONB
     const key = role === 'A' ? 'founder_a' : 'founder_b';
+    const currentFounderData = session ? session[key] || {} : {};
     const updatedFounderData = {
-      ...session[key],
+      ...currentFounderData,
       order_id: order.id
     };
 
     const { error: updateErr } = await supabase
       .from('sessions')
-      .update({ [key]: updatedFounderData })
-      .eq('id', sessionId);
+      .upsert({ id: sessionId, [key]: updatedFounderData }, { onConflict: 'id' });
 
     if (updateErr) {
       throw new Error(`Failed to associate order with session: ${updateErr.message}`);
     }
+
+    const callbackUrl = process.env.PAYMENT_HUB_URL ? `${process.env.PAYMENT_HUB_URL}/?app_id=cofit` : undefined;
 
     // 4. Return parameters required by Razorpay SDK
     res.status(200).json({
       key_id: process.env.RAZORPAY_KEY_ID,
       amount: order.amount,
       order_id: order.id,
-      callback_url: `${process.env.PAYMENT_HUB_URL}/?app_id=cofit`
+      callback_url: callbackUrl
     });
   } catch (error) {
     console.error('Create Payment Error:', error);
     res.status(500).json({ error: 'Failed to create payment order.', details: error.message });
+  }
+});
+
+// Route: Verify Razorpay Payment (Client JS Popup Callback)
+app.post('/api/verify-payment', async (req, res) => {
+  const { razorpay_order_id, razorpay_payment_id, razorpay_signature, sessionId } = req.body;
+
+  if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature || !sessionId) {
+    return res.status(400).json({ error: 'Missing required parameters for payment verification.' });
+  }
+
+  try {
+    const crypto = require('crypto');
+    const hmac = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET);
+    hmac.update(`${razorpay_order_id}|${razorpay_payment_id}`);
+    const computedSignature = hmac.digest('hex');
+
+    if (computedSignature !== razorpay_signature) {
+      console.error(`Signature mismatch during verification for session ${sessionId}`);
+      return res.status(400).json({ error: 'Invalid payment signature.' });
+    }
+
+    await markSessionAsPaid(sessionId, {
+      payment_id: razorpay_payment_id,
+      order_id: razorpay_order_id,
+      signature: razorpay_signature,
+      status: 'success'
+    });
+
+    res.status(200).json({ success: true, message: 'Payment verified and session updated.' });
+  } catch (err) {
+    console.error('Verify Payment Exception:', err);
+    res.status(500).json({ error: 'Payment verification failed.', details: err.message });
   }
 });
 
