@@ -42,8 +42,8 @@ export default function Dashboard({ appState, shareLink, onGoBack }) {
   const weakCats = sortedCats.slice(-3)
   const topCat = sortedCats[0]
 
-  // Payment status check
-  const isPaid = !!(paid || otherData?.paid)
+  // Payment status check (Disabled - Free Access)
+  const isPaid = true
 
   // Status mapping helpers
   const getStatus = (val) => val >= 80 ? 'Strong' : val >= 60 ? 'Medium' : 'Work'
