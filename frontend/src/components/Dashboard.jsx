@@ -22,20 +22,41 @@ export default function Dashboard({ appState, shareLink, onGoBack }) {
   const [showDetailedReport, setShowDetailedReport] = useState(false)
   const dashboardRef = useRef()
 
-  // Data processing...
-  const dataA = role === 'A' ? { name, answers } : otherData
-  const dataB = role === 'B' ? { name, answers } : otherData
-  const isSolo = !otherData
-  
-  const effA = dataA?.answers || answers
-  const effB = dataB?.answers || answers
-  
-  const nameA = dataA?.name || name || 'Founder A'
-  const nameB = dataB?.name || (isSolo ? 'Evaluation Baseline' : 'Co-Founder B')
+  // 1. Process Multi-Founder Data (2 to 5 Founders)
+  const numFounders = appState.numFounders || 2
+  const roleLetters = ['A', 'B', 'C', 'D', 'E'].slice(0, numFounders)
+  const founderColors = ['#00A9D6', '#6C2BD9', '#10B981', '#F59E0B', '#EC4899']
 
-  const { catScores, overall } = computeScores(effA, effB)
-  const scoresA = getIndividualScores(effA)
-  const scoresB = getIndividualScores(effB)
+  const foundersList = roleLetters.map((letter, idx) => {
+    const key = `founder_${letter.toLowerCase()}`
+    const data = appState.foundersData?.[key] || 
+      (appState.role === letter ? { name: appState.name, answers: appState.answers, profile: appState.profile } : 
+      (letter === 'B' && appState.otherData ? appState.otherData : null))
+    
+    const effName = data?.name || (letter === 'A' ? 'Founder A' : `Co-Founder ${letter}`)
+    const effAnswers = data?.answers || appState.answers || {}
+    const scores = getIndividualScores(effAnswers)
+
+    return {
+      role: letter,
+      name: effName,
+      answers: effAnswers,
+      scores: scores,
+      color: founderColors[idx],
+      hasAnswers: !!(data?.answers && Object.keys(data.answers).length > 0)
+    }
+  })
+
+  // Compute overall compatibility across all active founder answer sets
+  const validAnswerSets = foundersList.filter(f => f.hasAnswers).map(f => f.answers)
+  const { catScores, overall } = computeScores(validAnswerSets.length > 0 ? validAnswerSets : [answers])
+
+  const dataA = foundersList[0]
+  const dataB = foundersList[1] || foundersList[0]
+  const scoresA = dataA.scores
+  const scoresB = dataB.scores
+  const nameA = dataA.name
+  const nameB = dataB.name
 
   const cats = Object.keys(CATEGORIES)
   const sortedCats = [...cats].sort((a, b) => (catScores[b] || 0) - (catScores[a] || 0))
@@ -66,6 +87,20 @@ export default function Dashboard({ appState, shareLink, onGoBack }) {
     { label: 'Conflict', statusA: getRiskStatus(catScores['Conflict Resolution']), statusB: getRiskStatus(catScores['Conflict Resolution']) },
     { label: 'Equity', statusA: getRiskStatus(catScores['Equity']), statusB: getRiskStatus(catScores['Equity']) },
   ]
+
+  const radarDatasets = foundersList.map(f => ({
+    label: f.name,
+    data: cats.map(c => f.scores[c]),
+    borderColor: f.color,
+    backgroundColor: f.color + '1A'
+  }))
+
+  const lineDatasets = foundersList.map(f => ({
+    label: f.name,
+    data: cats.slice(0, 7).map(c => f.scores[c]),
+    borderColor: f.color,
+    backgroundColor: f.color
+  }))
 
   const copyShareLink = () => {
     navigator.clipboard.writeText(shareLink)
@@ -309,9 +344,13 @@ export default function Dashboard({ appState, shareLink, onGoBack }) {
       
       <div className="dashboard-screen">
         <header className="dash-header">
-          <div className="dash-founders">
-            <div className="founder-pill pill-a"><div className="pill-dot dot-a" />{nameA}</div>
-            <div className="founder-pill pill-b"><div className="pill-dot dot-b" />{nameB}</div>
+          <div className="dash-founders" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+            {foundersList.map((f) => (
+              <div key={f.role} className="founder-pill" style={{ border: `1px solid ${f.color}40`, color: '#1e293b', background: '#ffffff' }}>
+                <div className="pill-dot" style={{ background: f.color }} />
+                {f.name}
+              </div>
+            ))}
           </div>
           <div className="dash-header-actions" style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
             <span style={{ fontSize: '13px', color: '#64748b' }}>{new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}</span>
@@ -372,21 +411,14 @@ export default function Dashboard({ appState, shareLink, onGoBack }) {
           <KPICard title="STRATEGIC ALIGNMENT RADAR" className="c-radar" child={
             <RadarChart 
               labels={cats.map(c => c.split(' ')[0])} 
-              datasets={[
-            { label: nameA, data: cats.map(c => scoresA[c]), borderColor: '#00A9D6', backgroundColor: 'rgba(0, 169, 214, 0.1)' },
-            { label: nameB, data: cats.map(c => scoresB[c]), borderColor: '#2E2A8C', backgroundColor: 'rgba(46, 42, 140, 0.1)' }
-
-              ]} 
+              datasets={radarDatasets} 
             />
           } />
 
           <KPICard title="DECISION-MAKING STYLE MATRIX" className="c-matrix" child={
             <LineChart 
               labels={cats.slice(0, 7).map(c => c.split(' ')[0])} 
-              datasets={[
-                { label: nameA, data: cats.slice(0, 7).map(c => scoresA[c]), borderColor: '#00A9D6', backgroundColor: '#00A9D6' },
-                { label: nameB, data: cats.slice(0, 7).map(c => scoresB[c]), borderColor: '#2E2A8C', backgroundColor: '#2E2A8C' }
-              ]} 
+              datasets={lineDatasets} 
             />
           } />
 

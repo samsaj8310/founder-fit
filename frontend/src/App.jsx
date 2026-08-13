@@ -16,24 +16,24 @@ export default function App() {
   const [backupState, setBackupState] = useState(null)
   const [appState, setAppState] = useState({
     role: 'A',
+    numFounders: 2,
     name: '',
     profile: {},
     sessionId: '',
     answers: {},
+    foundersData: {},
     otherData: null,
     history: [],
     paid: false
   })
 
-  // 1. Detect co-founder B and hydrate state from Supabase / localStorage on mount
+  // 1. Detect co-founders and hydrate state from Supabase / localStorage on mount
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const urlSession = params.get('session')
-    const urlRole = params.get('role')
+    const urlRole = (params.get('role') || '').toUpperCase()
     
     if (urlSession) {
-      const isExplicitRoleB = urlRole === 'B'
-      
       const loadSession = async () => {
         try {
           const { data, error } = await supabase
@@ -43,23 +43,45 @@ export default function App() {
             .maybeSingle()
 
           if (!error && data) {
-            // Default to role B if explicit role=B OR session already has founder_a data
-            const role = isExplicitRoleB || (data.founder_a && !isExplicitRoleB) ? 'B' : 'A'
-            const meKey = role === 'A' ? 'founder_a' : 'founder_b'
+            const numFounders = data.num_founders || 2
+            let role = urlRole && ['A','B','C','D','E'].includes(urlRole) ? urlRole : null
+
+            if (!role) {
+              // Auto-assign first available empty slot
+              const keys = ['founder_a', 'founder_b', 'founder_c', 'founder_d', 'founder_e']
+              const emptyIdx = keys.slice(0, numFounders).findIndex(k => !data[k])
+              role = emptyIdx !== -1 ? String.fromCharCode(65 + emptyIdx) : 'B'
+            }
+
+            const meKey = `founder_${role.toLowerCase()}`
+            const foundersData = {
+              founder_a: data.founder_a || null,
+              founder_b: data.founder_b || null,
+              founder_c: data.founder_c || null,
+              founder_d: data.founder_d || null,
+              founder_e: data.founder_e || null,
+            }
+
+            // Fallback for legacy otherData
             const otherKey = role === 'A' ? 'founder_b' : 'founder_a'
-            
+
             setAppState(s => ({
               ...s,
               role: role,
+              numFounders: numFounders,
               sessionId: urlSession,
               name: data[meKey]?.name || s.name,
               profile: data[meKey]?.profile || s.profile,
               answers: data[meKey]?.answers || s.answers || {},
+              foundersData: foundersData,
               otherData: data[otherKey] || null,
               paid: !!(data.founder_a?.paid || data.founder_b?.paid)
             }))
 
-            if (data.founder_a?.answers && data.founder_b?.answers) {
+            const requiredKeys = ['founder_a', 'founder_b', 'founder_c', 'founder_d', 'founder_e'].slice(0, numFounders)
+            const allAnswered = requiredKeys.every(k => data[k]?.answers && Object.keys(data[k].answers).length > 0)
+
+            if (allAnswered) {
               setScreen(SCREENS.DASHBOARD)
             } else if (data[meKey]?.answers) {
               setScreen(SCREENS.WAITING)
@@ -72,13 +94,14 @@ export default function App() {
           console.error("Failed to fetch session on mount:", e)
         }
 
-        setAppState(s => ({ ...s, role: isExplicitRoleB ? 'B' : 'A', sessionId: urlSession }))
+        const validRole = urlRole && ['A','B','C','D','E'].includes(urlRole) ? urlRole : 'B'
+        setAppState(s => ({ ...s, role: validRole, sessionId: urlSession }))
       }
 
       loadSession()
     } else {
       const newSession = generateSessionId()
-      setAppState(s => ({ ...s, role: 'A', sessionId: newSession }))
+      setAppState(s => ({ ...s, role: 'A', numFounders: 2, sessionId: newSession }))
     }
   }, [])
 
@@ -292,32 +315,32 @@ export default function App() {
 
         if (pollError) return
         if (data) {
-          const isA = appState.role === 'A'
-          const meKey = isA ? 'founder_a' : 'founder_b'
-          const otherKey = isA ? 'founder_b' : 'founder_a'
+          const numFounders = data.num_founders || appState.numFounders || 2
+          const meKey = `founder_${appState.role.toLowerCase()}`
+          
+          const newFoundersData = {
+            founder_a: data.founder_a || null,
+            founder_b: data.founder_b || null,
+            founder_c: data.founder_c || null,
+            founder_d: data.founder_d || null,
+            founder_e: data.founder_e || null,
+          }
 
-          if (data[otherKey] && data[otherKey].answers) {
-            setAppState(s => {
-              const otherChanged = JSON.stringify(s.otherData) !== JSON.stringify(data[otherKey])
-              const meChanged = JSON.stringify(s.answers) !== JSON.stringify(data[meKey]?.answers)
-              const currentPaid = !!(data[meKey]?.paid || data[otherKey]?.paid)
-              const paidChanged = s.paid !== currentPaid
-              
-              if (otherChanged || meChanged || paidChanged) {
-                return { 
-                  ...s, 
-                  answers: data[meKey]?.answers || s.answers,
-                  profile: data[meKey]?.profile || s.profile,
-                  otherData: data[otherKey],
-                  paid: currentPaid
-                }
-              }
-              return s
-            })
+          setAppState(s => ({
+            ...s,
+            numFounders: numFounders,
+            answers: data[meKey]?.answers || s.answers,
+            profile: data[meKey]?.profile || s.profile,
+            foundersData: newFoundersData,
+            otherData: data[s.role === 'A' ? 'founder_b' : 'founder_a'] || s.otherData,
+            paid: !!(data.founder_a?.paid || data.founder_b?.paid)
+          }))
 
-            if (screen === SCREENS.WAITING && data[meKey]?.answers && data[otherKey]?.answers) {
-              setScreen(SCREENS.DASHBOARD)
-            }
+          const requiredKeys = ['founder_a', 'founder_b', 'founder_c', 'founder_d', 'founder_e'].slice(0, numFounders)
+          const allAnswered = requiredKeys.every(k => data[k]?.answers && Object.keys(data[k].answers).length > 0)
+
+          if (screen === SCREENS.WAITING && allAnswered) {
+            setScreen(SCREENS.DASHBOARD)
           }
         }
       } catch (e) {
@@ -326,7 +349,7 @@ export default function App() {
     }
 
     poll()
-    const interval = setInterval(poll, 5000)
+    const interval = setInterval(poll, 4000)
     return () => clearInterval(interval)
   }, [appState.sessionId, screen, appState.role])
 
@@ -334,24 +357,49 @@ export default function App() {
   useEffect(() => {
     if (screen === SCREENS.DASHBOARD) {
       const hasMyAnswers = appState.answers && Object.keys(appState.answers).length > 0
-      const hasOtherAnswers = appState.otherData?.answers && Object.keys(appState.otherData.answers).length > 0
+      const hasAnyFoundersData = Object.values(appState.foundersData || {}).some(f => f?.answers && Object.keys(f.answers).length > 0)
       
-      if (!hasMyAnswers && !hasOtherAnswers) {
+      if (!hasMyAnswers && !hasAnyFoundersData && !appState.otherData?.answers) {
         setScreen(SCREENS.QUIZ)
       }
     }
-  }, [screen, appState.answers, appState.otherData])
+  }, [screen, appState.answers, appState.foundersData, appState.otherData])
 
   const handleSimulateCoFounder = () => {
-    const demo = generateDemoAnswers()
-    const mockOther = {
-      name: appState.role === 'A' ? 'Co-Founder B (Simulated)' : 'Founder A (Simulated)',
-      answers: demo,
-      profile: { email: 'simulated@demo.com' }
+    const numFounders = appState.numFounders || 2
+    const keys = ['founder_a', 'founder_b', 'founder_c', 'founder_d', 'founder_e'].slice(0, numFounders)
+    const roleLabels = { A: 'Founder A', B: 'Co-Founder B', C: 'Co-Founder C', D: 'Co-Founder D', E: 'Co-Founder E' }
+    
+    const updatedFounders = { ...appState.foundersData }
+    const myKey = `founder_${appState.role.toLowerCase()}`
+
+    // Ensure my current data is in foundersData
+    if (!updatedFounders[myKey] || !updatedFounders[myKey].answers) {
+      updatedFounders[myKey] = {
+        name: appState.name || roleLabels[appState.role],
+        answers: appState.answers && Object.keys(appState.answers).length > 0 ? appState.answers : generateDemoAnswers(),
+        profile: appState.profile || {}
+      }
     }
+
+    // Fill remaining missing spots with simulated data
+    keys.forEach(k => {
+      if (!updatedFounders[k] || !updatedFounders[k].answers) {
+        const letter = k.split('_')[1].toUpperCase()
+        updatedFounders[k] = {
+          name: `${roleLabels[letter]} (Simulated)`,
+          answers: generateDemoAnswers(),
+          profile: { email: `simulated_${letter.toLowerCase()}@demo.com` }
+        }
+      }
+    })
+
+    const otherKey = appState.role === 'A' ? 'founder_b' : 'founder_a'
+
     setAppState(s => ({
       ...s,
-      otherData: mockOther
+      foundersData: updatedFounders,
+      otherData: updatedFounders[otherKey] || null
     }))
     setScreen(SCREENS.DASHBOARD)
   }
@@ -366,15 +414,27 @@ export default function App() {
     setAppState(updated)
 
     // Save to Supabase
-    const key = updated.role === 'A' ? 'founder_a' : 'founder_b'
+    const key = `founder_${updated.role.toLowerCase()}`
     const payload = { name: updated.name, answers, profile: updated.profile }
     
     try {
-      const { error: upsertError } = await supabase.from('sessions').upsert({ id: updated.sessionId, [key]: payload }, { onConflict: 'id' })
+      const { error: upsertError } = await supabase
+        .from('sessions')
+        .upsert({ 
+          id: updated.sessionId, 
+          num_founders: updated.numFounders || 2,
+          [key]: payload 
+        }, { onConflict: 'id' })
+
       if (upsertError) throw upsertError
+
+      const numFounders = updated.numFounders || 2
+      const requiredKeys = ['founder_a', 'founder_b', 'founder_c', 'founder_d', 'founder_e'].slice(0, numFounders)
+      const currentFounders = { ...updated.foundersData, [key]: payload }
       
-      const hasOtherAnswers = updated.otherData?.answers && Object.keys(updated.otherData.answers).length > 0
-      if (hasOtherAnswers) {
+      const allAnswered = requiredKeys.every(k => currentFounders[k]?.answers && Object.keys(currentFounders[k].answers).length > 0)
+
+      if (allAnswered) {
         setScreen(SCREENS.DASHBOARD)
       } else {
         setScreen(SCREENS.WAITING)
@@ -385,7 +445,7 @@ export default function App() {
     }
   }
 
-  const shareLink = `${window.location.origin}${window.location.pathname}?session=${appState.sessionId}&role=B`
+  const shareLink = `${window.location.origin}${window.location.pathname}?session=${appState.sessionId}`
 
   return (
     <>

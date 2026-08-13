@@ -286,43 +286,74 @@ export default function ProfileScreen({ appState, setAppState, shareLink, onStar
                 <span className="field-help-text">India: 10 digits, starts 6–9</span>
               </div>
 
-              {/* Row 4: Founder Role Selector Cards */}
+              {/* Row 4: Team Size Selector */}
               <div className="aligned-field" style={{ marginTop: '8px' }}>
-                <label>YOUR SESSION ROLE</label>
-                <div className="role-cards-grid">
-                  <div
-                    className={`founder-role-card ${appState.role === 'A' ? 'selected-a' : ''}`}
-                    onClick={() => setAppState(s => ({ ...s, role: 'A' }))}
-                  >
-                    <div className="role-card-icon-wrap">🚀</div>
-                    <div className="role-card-info">
-                      <span className="role-card-name">Founder A</span>
-                      <span className="role-card-hint">Start assessment</span>
-                    </div>
-                  </div>
-
-                  <div
-                    className={`founder-role-card ${appState.role === 'B' ? 'selected-b' : ''}`}
-                    onClick={() => setAppState(s => ({ ...s, role: 'B' }))}
-                  >
-                    <div className="role-card-icon-wrap">🤝</div>
-                    <div className="role-card-info">
-                      <span className="role-card-name">Co-Founder B</span>
-                      <span className="role-card-hint">Join session</span>
-                    </div>
-                  </div>
+                <label>TEAM SIZE (FOUNDERS & CO-FOUNDERS)</label>
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '6px' }}>
+                  {[2, 3, 4, 5].map((count) => {
+                    const activeCount = appState.numFounders || 2
+                    const isSelected = activeCount === count
+                    return (
+                      <button
+                        key={count}
+                        type="button"
+                        onClick={() => setAppState(s => ({ ...s, numFounders: count }))}
+                        style={{
+                          flex: 1,
+                          minWidth: '70px',
+                          padding: '10px 8px',
+                          borderRadius: '10px',
+                          border: isSelected ? '2px solid #0066FF' : '1px solid #E2E8F0',
+                          background: isSelected ? '#F0F7FF' : '#FFFFFF',
+                          color: isSelected ? '#0066FF' : '#475569',
+                          fontWeight: 700,
+                          cursor: 'pointer',
+                          transition: 'all 0.2s ease',
+                          fontSize: '13px'
+                        }}
+                      >
+                        👥 {count} Team
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
 
-              {/* Co-Founder Shareable Link if Founder A */}
-              {isB ? (
+              {/* Row 5: Founder Role Selector Cards */}
+              <div className="aligned-field" style={{ marginTop: '8px' }}>
+                <label>YOUR SESSION ROLE</label>
+                <div className="role-cards-grid">
+                  {[
+                    { id: 'A', label: 'Founder A', icon: '🚀', hint: 'Start assessment' },
+                    { id: 'B', label: 'Co-Founder B', icon: '🤝', hint: 'Join session' },
+                    { id: 'C', label: 'Co-Founder C', icon: '⚡', hint: 'Join session' },
+                    { id: 'D', label: 'Co-Founder D', icon: '🎯', hint: 'Join session' },
+                    { id: 'E', label: 'Co-Founder E', icon: '🌟', hint: 'Join session' },
+                  ].slice(0, appState.numFounders || 2).map((r) => (
+                    <div
+                      key={r.id}
+                      className={`founder-role-card ${appState.role === r.id ? 'selected-a' : ''}`}
+                      onClick={() => setAppState(s => ({ ...s, role: r.id }))}
+                    >
+                      <div className="role-card-icon-wrap">{r.icon}</div>
+                      <div className="role-card-info">
+                        <span className="role-card-name">{r.label}</span>
+                        <span className="role-card-hint">{r.hint}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Co-Founder Shareable Link if Co-Founder B/C/D/E */}
+              {appState.role !== 'A' ? (
                 <div className="session-joined-badge" style={{ background: '#ECFDF5', color: '#047857', border: '1px solid #A7F3D0', padding: '14px 18px', borderRadius: '10px', fontSize: '14px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <span>🤝</span>
-                  <span>Joining session as <strong>Co-Founder B</strong> (Linked with {appState.otherData?.name ? <strong>{appState.otherData.name}</strong> : 'Founder A'})</span>
+                  <span>Joining session as <strong>Co-Founder {appState.role}</strong> (Linked with {appState.otherData?.name ? <strong>{appState.otherData.name}</strong> : 'Founder A'})</span>
                 </div>
               ) : (
                 <div className="share-box" style={{ background: '#F8FAFC', border: '1px solid #E2E8F0' }}>
-                  <label style={{ color: '#0066FF' }}>📎 INVITE LINK — SHARE WITH YOUR CO-FOUNDER</label>
+                  <label style={{ color: '#0066FF' }}>📎 INVITE LINK — SHARE WITH YOUR CO-FOUNDERS</label>
                   <div className="share-row">
                     <input readOnly value={shareLink} />
                     <button onClick={copyLink}>{copied ? '✓ Copied!' : 'Copy Link'}</button>
