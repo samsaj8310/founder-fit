@@ -163,17 +163,17 @@ export default function DetailedReport({
           padding: 0;
         }
 
-        .detailed-report-overlay, .wp-page, .page {
-          font-family: 'Inter', sans-serif !important;
+        .detailed-report-overlay, .wp-page, .page, body {
+          font-family: 'Times New Roman', Times, serif !important;
           color: var(--ink);
         }
 
         .mono, .wp-mono, .pg-num, .stat-box .n, .sc {
-          font-family: 'IBM Plex Mono', monospace !important;
+          font-family: 'Times New Roman', Times, serif !important;
         }
 
         .serif, .wp-serif, h3.sec, .persona-name, .pg-title {
-          font-family: 'Playfair Display', serif !important;
+          font-family: 'Times New Roman', Times, serif !important;
         }
 
         .wp-page, .page {
@@ -426,30 +426,30 @@ export default function DetailedReport({
           color: var(--b900);
         }
 
-        .dim-block { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+        .dim-block { display: flex; gap: 14px; padding: 22px 0; border-bottom: 1px solid var(--border); }
         .dim-block:last-child { border-bottom: none; }
         .dim-score-col { width: 66px; flex-shrink: 0; text-align: center; }
         .dim-score-col .n { font-size: 25.52px; font-weight: 700; }
         .dim-score-col .band { font-size: 8.7px; text-transform: uppercase; letter-spacing: .04em; color: var(--inkL); margin-top: 1px; }
         .dim-body { flex: 1; }
-        .dim-name { font-size: 13.92px; font-weight: 700; color: var(--b900); margin-bottom: 2px; }
-        .dim-desc { font-size: 11.6px; color: var(--inkL); line-height: 1.67; }
-        .dim-tell { font-size: 11.02px; color: #475569; line-height: 1.67; margin-top: 3px; padding-left: 10px; border-left: 2px solid var(--b100); }
+        .dim-name { font-size: 14.5px; font-weight: 700; color: var(--b900); margin-bottom: 4px; }
+        .dim-desc { font-size: 12px; color: var(--inkL); line-height: 1.72; }
+        .dim-tell { font-size: 11.5px; color: #475569; line-height: 1.72; margin-top: 5px; padding-left: 12px; border-left: 2px solid var(--b100); }
 
-        .glance-table { width: 100%; border-collapse: collapse; margin: 10px 0 4px; }
-        .glance-table td { padding: 6px 8px; font-size: 11.37px; border-bottom: 1px solid var(--border); }
+        .glance-table { width: 100%; border-collapse: collapse; margin: 16px 0 8px; }
+        .glance-table td { padding: 10px 8px; font-size: 12px; border-bottom: 1px solid var(--border); }
         .glance-table .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 7px; }
         .glance-table .nm { font-weight: 600; color: var(--b900); }
         .glance-table .sc { font-weight: 700; text-align: right; }
 
-        .action-item { display: flex; gap: 11px; padding: 11px 0; border-bottom: 1px solid var(--border); }
+        .action-item { display: flex; gap: 14px; padding: 24px 0; border-bottom: 1px solid var(--border); }
         .action-item:last-child { border-bottom: none; }
         .action-num {
-          width: 22px;
-          height: 22px;
+          width: 26px;
+          height: 26px;
           border-radius: 50%;
           color: #fff;
-          font-size: 11.6px;
+          font-size: 12.5px;
           font-weight: 700;
           flex-shrink: 0;
           display: flex;
@@ -457,13 +457,13 @@ export default function DetailedReport({
           justify-content: center;
           margin-top: 1px;
         }
-        .action-dim { font-size: 10.44px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 2px; }
-        .action-text { font-size: 12.18px; color: #334155; line-height: 1.67; }
-        .action-why { font-size: 11.02px; color: var(--inkL); line-height: 1.62; margin-top: 3px; font-style: italic; }
+        .action-dim { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+        .action-text { font-size: 13px; color: #334155; line-height: 1.75; }
+        .action-why { font-size: 11.8px; color: var(--inkL); line-height: 1.68; margin-top: 5px; font-style: italic; }
 
-        .seq-table { width: 100%; border-collapse: collapse; margin: 10px 0; }
-        .seq-table th { text-align: left; font-size: 9.63px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--inkL); padding: 6px 8px; border-bottom: 1.5px solid var(--b900); }
-        .seq-table td { padding: 7px 8px; font-size: 11.37px; border-bottom: 1px solid var(--border); vertical-align: top; }
+        .seq-table { width: 100%; border-collapse: collapse; margin: 18px 0; }
+        .seq-table th { text-align: left; font-size: 10.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--inkL); padding: 10px 10px; border-bottom: 1.5px solid var(--b900); }
+        .seq-table td { padding: 14px 10px; font-size: 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
       ` }} />
 
       {/* Document Viewer Header Bar */}
@@ -496,7 +496,7 @@ export default function DetailedReport({
           </div>
 
           <div style={{ padding: '14mm 16mm 0', position: 'relative', zIndex: 2 }}>
-            <div className="wp-mono" style={{ fontSize: '11.5px', letterSpacing: '.2em', textTransform: 'uppercase', color: '#1a56db', fontWeight: 600, marginBottom: '6mm' }}>AI ASSESSMENT REPORT Â· DETAILED SYNERGY SUMMARY</div>
+            <div className="wp-mono" style={{ fontSize: '11.5px', letterSpacing: '.2em', textTransform: 'uppercase', color: '#1a56db', fontWeight: 600, marginBottom: '6mm' }}>ASSESSMENT REPORT · DETAILED SYNERGY SUMMARY</div>
             <div style={{ fontWeight: 800, fontSize: '50px', lineHeight: 1.08, color: '#061228', letterSpacing: '-.01em' }}>Co-Founder</div>
             <div style={{ fontWeight: 800, fontSize: '50px', lineHeight: 1.08, color: '#1a56db', letterSpacing: '-.01em' }}>Compatibility Fit</div>
             <div style={{ fontSize: '13.8px', fontWeight: 700, letterSpacing: '.05em', textTransform: 'uppercase', color: '#334155', marginTop: '8mm' }}>Prepared For: {nameA} & {nameB}</div>
@@ -664,7 +664,6 @@ export default function DetailedReport({
             <div className="pg-num mono">04 / 12</div>
           </div>
 
-          <div className="eyebrow">Section One</div>
           <div className="pg-title">Executive Summary</div>
           <div className="pg-sub">An overview of your overall compatibility profile â€” your score, what it means, and where your alignment is strongest.</div>
 
@@ -724,7 +723,6 @@ export default function DetailedReport({
             <div className="pg-num mono">05 / 12</div>
           </div>
 
-          <div className="eyebrow">Section Two</div>
           <div className="pg-title">Compatibility Dimensions I</div>
           <div className="pg-sub">Detailed alignment insights for the first four core compatibility categories.</div>
 
@@ -762,7 +760,6 @@ export default function DetailedReport({
             <div className="pg-num mono">06 / 12</div>
           </div>
 
-          <div className="eyebrow">Section Two</div>
           <div className="pg-title">Compatibility Dimensions II</div>
           <div className="pg-sub">Detailed alignment insights for the remaining compatibility categories.</div>
 
@@ -800,7 +797,6 @@ export default function DetailedReport({
             <div className="pg-num mono">07 / 12</div>
           </div>
 
-          <div className="eyebrow">Section Three</div>
           <div className="pg-title">Strategic Alignment Charts</div>
           <div className="pg-sub">Live visual mapping of the profile overlap between the founders.</div>
 
@@ -850,7 +846,6 @@ export default function DetailedReport({
             <div className="pg-num mono">08 / 12</div>
           </div>
 
-          <div className="eyebrow">Section Four</div>
           <div className="pg-title">Partnership Risk Map</div>
           <div className="pg-sub">Strategic variance mapping of the co-founder compatibility split.</div>
 
@@ -911,7 +906,6 @@ export default function DetailedReport({
             <div className="pg-num mono">09 / 12</div>
           </div>
 
-          <div className="eyebrow">Section Five</div>
           <div className="pg-title">Action Plan & Recommendations</div>
           <div className="pg-sub">Sequenced alignment steps for the partnership.</div>
 
@@ -959,20 +953,20 @@ export default function DetailedReport({
             </div>
             
             <div className="wp-serif" style={{ fontSize: '28.7px', fontWeight: 700, color: '#061228', marginBottom: '8mm', whiteSpace: 'nowrap' }}>Disclaimer, Privacy and Terms</div>
-            
+
             <div style={{ display: 'flex', gap: '5mm', marginBottom: '7mm' }}>
-              <div style={{ width: '11mm', height: '11mm', borderRadius: '10px', background: '#fff7ed', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18.4px', flexShrink: 0 }}>âš ï¸</div>
+              <div style={{ width: '11mm', height: '11mm', borderRadius: '10px', background: '#fff7ed', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18.4px', flexShrink: 0 }}>⚠️</div>
               <div>
                 <div className="wp-serif" style={{ fontSize: '17.2px', fontWeight: 700, color: '#061228', marginBottom: '2mm' }}>Disclaimer</div>
                 <div style={{ fontSize: '11.7px', color: '#334155', lineHeight: 1.78, textAlign: 'left' }}>
-                  <p style={{ marginBottom: '2mm' }}>The <b>AI-evaluated assessment report</b> is intended for informational and decision-support purposes only. Results are based on the information provided by the user and AI-driven analysis and should not be considered legal, financial, investment, or professional advice.</p>
-                  <p style={{ marginBottom: '2mm' }}>Users are encouraged to validate critical decisions with relevant experts before taking action. Infopace makes no representation or warranty as to the completeness or accuracy of AI-evaluated interpretations, and scores should be read as directional indicators rather than absolute measurements.</p>
+                  <p style={{ marginBottom: '2mm' }}>The <b>assessment report</b> is intended for informational and decision-support purposes only. Results are based on the information provided by the user and analysis and should not be considered legal, financial, investment, or professional advice.</p>
+                  <p style={{ marginBottom: '2mm' }}>Users are encouraged to validate critical decisions with relevant experts before taking action. Infopace makes no representation or warranty as to the completeness or accuracy of assessment interpretations, and scores should be read as directional indicators rather than absolute measurements.</p>
                 </div>
               </div>
             </div>
 
             <div style={{ display: 'flex', gap: '5mm', marginBottom: '7mm' }}>
-              <div style={{ width: '11mm', height: '11mm', borderRadius: '10px', background: '#f0fdf4', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18.4px', flexShrink: 0 }}>ðŸ”’</div>
+              <div style={{ width: '11mm', height: '11mm', borderRadius: '10px', background: '#f0fdf4', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18.4px', flexShrink: 0 }}>🔒</div>
               <div>
                 <div className="wp-serif" style={{ fontSize: '17.2px', fontWeight: 700, color: '#061228', marginBottom: '2mm' }}>Privacy Policy</div>
                 <div style={{ fontSize: '11.7px', color: '#334155', lineHeight: 1.78, textAlign: 'left' }}>
@@ -983,11 +977,11 @@ export default function DetailedReport({
             </div>
 
             <div style={{ display: 'flex', gap: '5mm', marginBottom: '7mm' }}>
-              <div style={{ width: '11mm', height: '11mm', borderRadius: '10px', background: '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18.4px', flexShrink: 0 }}>ðŸ“„</div>
+              <div style={{ width: '11mm', height: '11mm', borderRadius: '10px', background: '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18.4px', flexShrink: 0 }}>📄</div>
               <div>
                 <div className="wp-serif" style={{ fontSize: '17.2px', fontWeight: 700, color: '#061228', marginBottom: '2mm' }}>Terms and Conditions</div>
                 <div style={{ fontSize: '11.7px', color: '#334155', lineHeight: 1.78, textAlign: 'left' }}>
-                  <p style={{ marginBottom: '2mm' }}>By using Infopace's AI-powered assessment tools, users acknowledge that the assessment results are generated based on the information they provide and the AI-driven evaluation methodology. The reports are intended to support decision-making and should not be considered a substitute for professional legal, financial, or business advice.</p>
+                  <p style={{ marginBottom: '2mm' }}>By using Infopace's assessment tools, users acknowledge that the assessment results are generated based on the information they provide and the evaluation methodology. The reports are intended to support decision-making and should not be considered a substitute for professional legal, financial, or business advice.</p>
                   <p style={{ marginBottom: '2mm' }}>Users are responsible for ensuring the accuracy of the information submitted and for any decisions or actions taken based on the report. Infopace does not guarantee specific business outcomes or success resulting from the recommendations provided.</p>
                   <p style={{ marginBottom: '2mm' }}>All assessment content, methodologies, reports, and related intellectual property remain the exclusive property of Infopace and may not be copied, reproduced, modified, or distributed without prior written consent. Infopace reserves the right to update, modify, or discontinue the assessment tools, methodologies, and these terms at any time without prior notice.</p>
                 </div>
@@ -1094,7 +1088,6 @@ export default function DetailedReport({
             <div className="wp-mono" style={{ fontSize: '10.3px', color: '#94a3b8' }}>12 / 12</div>
           </div>
           <div style={{ position: 'relative', zIndex: 2, flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', padding: '6mm 16mm 0' }}>
-            <div className="wp-mono" style={{ fontSize: '11.5px', letterSpacing: '.2em', textTransform: 'uppercase', color: '#1a56db', fontWeight: 600, marginBottom: '5mm' }}>Thank You</div>
             <div className="wp-serif" style={{ fontWeight: 700, fontSize: '48.3px', lineHeight: '1.21', color: '#061228', marginBottom: '7mm' }}>Thank you<br/>for reading.</div>
             <p style={{ fontSize: '13.2px', color: '#475569', lineHeight: '1.87', maxWidth: '105mm', marginBottom: '9mm' }}>If you have any questions or would like to discuss these findings further, please don't hesitate to reach out to us.</p>
             <div style={{ width: '60mm', height: '1px', background: 'var(--border)', marginBottom: '7mm' }}></div>
