@@ -286,37 +286,65 @@ export default function ProfileScreen({ appState, setAppState, shareLink, onStar
                 <span className="field-help-text">India: 10 digits, starts 6–9</span>
               </div>
 
-              {/* Row 4: Team Size Selector */}
+              {/* Row 4: Number of Users Taking Assessment */}
               <div className="aligned-field" style={{ marginTop: '8px' }}>
-                <label>TEAM SIZE (FOUNDERS & CO-FOUNDERS)</label>
-                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '6px' }}>
-                  {[2, 3, 4, 5].map((count) => {
-                    const activeCount = appState.numFounders || 2
-                    const isSelected = activeCount === count
-                    return (
-                      <button
-                        key={count}
-                        type="button"
-                        onClick={() => setAppState(s => ({ ...s, numFounders: count }))}
-                        style={{
-                          flex: 1,
-                          minWidth: '70px',
-                          padding: '10px 8px',
-                          borderRadius: '10px',
-                          border: isSelected ? '2px solid #0066FF' : '1px solid #E2E8F0',
-                          background: isSelected ? '#F0F7FF' : '#FFFFFF',
-                          color: isSelected ? '#0066FF' : '#475569',
-                          fontWeight: 700,
-                          cursor: 'pointer',
-                          transition: 'all 0.2s ease',
-                          fontSize: '13px'
-                        }}
-                      >
-                        👥 {count} Team
-                      </button>
-                    )
-                  })}
+                <label>NUMBER OF USERS TAKING ASSESSMENT *</label>
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap', marginTop: '6px' }}>
+                  <select
+                    value={appState.numFounders || 2}
+                    onChange={e => {
+                      const count = parseInt(e.target.value, 10)
+                      setAppState(s => ({ ...s, numFounders: count }))
+                    }}
+                    style={{
+                      padding: '10px 14px',
+                      borderRadius: '10px',
+                      border: '2px solid #0066FF',
+                      background: '#F0F7FF',
+                      color: '#0066FF',
+                      fontWeight: 700,
+                      fontSize: '14px',
+                      cursor: 'pointer',
+                      minWidth: '160px',
+                      outline: 'none'
+                    }}
+                  >
+                    <option value={2}>👥 2 Users (Founders)</option>
+                    <option value={3}>👥 3 Users (Founders)</option>
+                    <option value={4}>👥 4 Users (Founders)</option>
+                    <option value={5}>👥 5 Users (Founders)</option>
+                  </select>
+
+                  <div style={{ display: 'flex', gap: '8px', flex: 1, flexWrap: 'wrap' }}>
+                    {[2, 3, 4, 5].map((count) => {
+                      const activeCount = appState.numFounders || 2
+                      const isSelected = activeCount === count
+                      return (
+                        <button
+                          key={count}
+                          type="button"
+                          onClick={() => setAppState(s => ({ ...s, numFounders: count }))}
+                          style={{
+                            flex: 1,
+                            minWidth: '60px',
+                            padding: '10px 8px',
+                            borderRadius: '10px',
+                            border: isSelected ? '2px solid #0066FF' : '1px solid #E2E8F0',
+                            background: isSelected ? '#0066FF' : '#FFFFFF',
+                            color: isSelected ? '#FFFFFF' : '#475569',
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                            transition: 'all 0.2s ease',
+                            fontSize: '13px'
+                          }}
+                        >
+                          {count} Users
+                        </button>
+                      )
+                    })}
+                  </div>
                 </div>
+                <span className="field-help-text">Select how many founders/co-founders are taking this assessment together (2 to 5 users).</span>
               </div>
 
               {/* Row 5: Founder Role Selector Cards */}
