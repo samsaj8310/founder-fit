@@ -70,23 +70,39 @@ export default function Dashboard({ appState, shareLink, onGoBack }) {
   const getStatus = (val) => val >= 80 ? 'Strong' : val >= 60 ? 'Medium' : 'Work'
   const getRiskStatus = (val) => val >= 80 ? 'Low' : val >= 60 ? 'Med' : 'High'
 
-  const capabilityData = [
-    { label: 'Strategic Thinking', statusA: getStatus(scoresA['Strategy']), statusB: getStatus(scoresB['Strategy']) },
-    { label: 'Execution Ability', statusA: getStatus(scoresA['Resilience']), statusB: getStatus(scoresB['Resilience']) },
-    { label: 'Market Vision', statusA: getStatus(scoresA['Market Approach']), statusB: getStatus(scoresB['Market Approach']) },
-    { label: 'Leadership', statusA: getStatus(scoresA['Leadership']), statusB: getStatus(scoresB['Leadership']) },
-    { label: 'Equity Mindset', statusA: getStatus(scoresA['Equity']), statusB: getStatus(scoresB['Equity']) },
+  const capabilityMetrics = [
+    { label: 'Strategic Thinking', cat: 'Strategy' },
+    { label: 'Execution Ability', cat: 'Resilience' },
+    { label: 'Market Vision', cat: 'Market Approach' },
+    { label: 'Leadership', cat: 'Leadership' },
+    { label: 'Equity Mindset', cat: 'Equity' },
   ]
 
-  const riskData = [
-    { label: 'Roles', statusA: getRiskStatus(catScores['Roles']), statusB: getRiskStatus(catScores['Roles']) },
-    { label: 'Strategy', statusA: getRiskStatus(catScores['Strategy']), statusB: getRiskStatus(catScores['Strategy']) },
-    { label: 'Market', statusA: getRiskStatus(catScores['Market Approach']), statusB: getRiskStatus(catScores['Market Approach']) },
-    { label: 'Leadership', statusA: getRiskStatus(catScores['Leadership']), statusB: getRiskStatus(catScores['Leadership']) },
-    { label: 'Resilience', statusA: getRiskStatus(catScores['Resilience']), statusB: getRiskStatus(catScores['Resilience']) },
-    { label: 'Conflict', statusA: getRiskStatus(catScores['Conflict Resolution']), statusB: getRiskStatus(catScores['Conflict Resolution']) },
-    { label: 'Equity', statusA: getRiskStatus(catScores['Equity']), statusB: getRiskStatus(catScores['Equity']) },
+  const capabilityData = capabilityMetrics.map(m => ({
+    label: m.label,
+    statuses: foundersList.map(f => ({
+      name: f.name,
+      status: getStatus(f.scores[m.cat] || 70)
+    }))
+  }))
+
+  const riskMetrics = [
+    { label: 'Roles', cat: 'Roles' },
+    { label: 'Strategy', cat: 'Strategy' },
+    { label: 'Market', cat: 'Market Approach' },
+    { label: 'Leadership', cat: 'Leadership' },
+    { label: 'Resilience', cat: 'Resilience' },
+    { label: 'Conflict', cat: 'Conflict Resolution' },
+    { label: 'Equity', cat: 'Equity' },
   ]
+
+  const riskData = riskMetrics.map(m => ({
+    label: m.label,
+    statuses: foundersList.map(f => ({
+      name: f.name,
+      status: getRiskStatus(f.scores[m.cat] || catScores[m.cat] || 70)
+    }))
+  }))
 
   const radarDatasets = foundersList.map(f => ({
     label: f.name,
@@ -423,7 +439,7 @@ export default function Dashboard({ appState, shareLink, onGoBack }) {
           } />
 
 
-          <KPICard title="FOUNDER CAPABILITY MAP" className="c-capmap" child={<StatusTable data={capabilityData} />} />
+          <KPICard title="FOUNDER CAPABILITY MAP" className="c-capmap" child={<StatusTable data={capabilityData} columns={foundersList} />} />
 
           <KPICard title="AI PARTNERSHIP INSIGHT" className="c-ai1" child={
             <AIInsightsBox 
@@ -457,7 +473,7 @@ export default function Dashboard({ appState, shareLink, onGoBack }) {
             </div>
           </div>
 
-          <KPICard title="PARTNERSHIP RISK MAP" className="c-riskmap" child={<StatusTable data={riskData} />} />
+          <KPICard title="PARTNERSHIP RISK MAP" className="c-riskmap" child={<StatusTable data={riskData} columns={foundersList} />} />
 
           <KPICard title="AI PARTNERSHIP INSIGHT" className="c-ai2" child={
             <AIInsightsBox 
@@ -538,6 +554,7 @@ export default function Dashboard({ appState, shareLink, onGoBack }) {
           onClose={() => setShowDetailedReport(false)}
           nameA={nameA}
           nameB={nameB}
+          foundersList={foundersList}
           overall={overall}
           catScores={catScores}
           scoresA={scoresA}
