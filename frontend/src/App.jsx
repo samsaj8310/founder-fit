@@ -346,9 +346,10 @@ export default function App() {
           }))
 
           const requiredKeys = ['founder_a', 'founder_b', 'founder_c', 'founder_d', 'founder_e'].slice(0, numFounders)
-          const allAnswered = requiredKeys.every(k => data[k]?.answers && Object.keys(data[k].answers).length > 0)
+          const answeredKeys = requiredKeys.filter(k => data[k]?.answers && Object.keys(data[k].answers).length > 0)
+          const shouldShowDashboard = answeredKeys.length >= numFounders || answeredKeys.length >= 2
 
-          if (screen === SCREENS.WAITING && allAnswered) {
+          if (screen === SCREENS.WAITING && shouldShowDashboard) {
             setScreen(SCREENS.DASHBOARD)
           }
         }
@@ -458,9 +459,10 @@ export default function App() {
       const requiredKeys = ['founder_a', 'founder_b', 'founder_c', 'founder_d', 'founder_e'].slice(0, numFounders)
       const currentFounders = { ...updated.foundersData, [key]: payload }
       
-      const allAnswered = requiredKeys.every(k => currentFounders[k]?.answers && Object.keys(currentFounders[k].answers).length > 0)
+      const answeredKeys = requiredKeys.filter(k => currentFounders[k]?.answers && Object.keys(currentFounders[k].answers).length > 0)
+      const shouldShowDashboard = answeredKeys.length >= numFounders || answeredKeys.length >= 2
 
-      if (allAnswered) {
+      if (shouldShowDashboard) {
         setScreen(SCREENS.DASHBOARD)
       } else {
         setScreen(SCREENS.WAITING)
