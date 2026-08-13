@@ -380,12 +380,53 @@ export default function ProfileScreen({ appState, setAppState, shareLink, onStar
                   <span>Joining session as <strong>Co-Founder {appState.role}</strong> (Linked with {appState.otherData?.name ? <strong>{appState.otherData.name}</strong> : 'Founder A'})</span>
                 </div>
               ) : (
-                <div className="share-box" style={{ background: '#F8FAFC', border: '1px solid #E2E8F0' }}>
-                  <label style={{ color: '#0066FF' }}>📎 INVITE LINK — SHARE WITH YOUR CO-FOUNDERS</label>
-                  <div className="share-row">
-                    <input readOnly value={shareLink} />
-                    <button onClick={copyLink}>{copied ? '✓ Copied!' : 'Copy Link'}</button>
+                <div className="share-box" style={{ background: '#F8FAFC', border: '1px solid #E2E8F0', padding: '16px', borderRadius: '12px' }}>
+                  <label style={{ color: '#0066FF', fontWeight: 800 }}>📎 INVITE LINKS — SHARE WITH YOUR TEAM ({appState.numFounders || 2} MEMBERS)</label>
+                  
+                  {/* Master Link */}
+                  <div style={{ marginTop: '8px' }}>
+                    <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748B', marginBottom: '4px' }}>MASTER LINK (Auto-assigns joining co-founders):</div>
+                    <div className="share-row">
+                      <input readOnly value={shareLink} />
+                      <button onClick={copyLink}>{copied ? '✓ Copied!' : 'Copy Master Link'}</button>
+                    </div>
                   </div>
+
+                  {/* Individual Role Links */}
+                  {(appState.numFounders || 2) >= 2 && (
+                    <div style={{ marginTop: '12px', borderTop: '1px solid #E2E8F0', paddingTop: '10px' }}>
+                      <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748B', marginBottom: '6px' }}>OR SHARE INDIVIDUAL ROLE LINKS:</div>
+                      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                        {['B', 'C', 'D', 'E'].slice(0, (appState.numFounders || 2) - 1).map((roleChar) => {
+                          const roleUrl = `${shareLink}&role=${roleChar}`
+                          return (
+                            <button
+                              key={roleChar}
+                              type="button"
+                              onClick={() => {
+                                navigator.clipboard.writeText(roleUrl)
+                                alert(`Copied invite link for Co-Founder ${roleChar}!`)
+                              }}
+                              style={{
+                                flex: 1,
+                                minWidth: '120px',
+                                padding: '8px 12px',
+                                background: '#FFFFFF',
+                                border: '1px solid #CBD5E1',
+                                borderRadius: '8px',
+                                fontSize: '12px',
+                                fontWeight: 700,
+                                color: '#334155',
+                                cursor: 'pointer'
+                              }}
+                            >
+                              📋 Co-Founder {roleChar} Link
+                            </button>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 
