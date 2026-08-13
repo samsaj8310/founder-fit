@@ -33,6 +33,8 @@ export default function App() {
     const params = new URLSearchParams(window.location.search)
     const urlSession = params.get('session')
     const urlRole = (params.get('role') || '').toUpperCase()
+    const rawCount = parseInt(params.get('count') || params.get('founders') || '0', 10)
+    const urlCount = (rawCount >= 2 && rawCount <= 5) ? rawCount : 0
     
     if (urlSession) {
       const loadSession = async () => {
@@ -44,7 +46,12 @@ export default function App() {
             .maybeSingle()
 
           if (!error && data) {
-            const numFounders = data.num_founders || data.founder_a?.num_founders || data.founder_b?.num_founders || data.founder_c?.num_founders || 2
+            const detectedCount = data.num_founders || data.founder_a?.num_founders || data.founder_b?.num_founders || data.founder_c?.num_founders || data.founder_d?.num_founders || data.founder_e?.num_founders
+            
+            // Check how many founder entries exist in the DB record
+            const dbPresentKeys = ['founder_a', 'founder_b', 'founder_c', 'founder_d', 'founder_e'].filter(k => data[k])
+            const numFounders = Math.max(urlCount || 0, detectedCount || 0, dbPresentKeys.length, 2)
+
             let role = urlRole && ['A','B','C','D','E'].includes(urlRole) ? urlRole : null
 
             if (!role) {
@@ -96,7 +103,8 @@ export default function App() {
         }
 
         const validRole = urlRole && ['A','B','C','D','E'].includes(urlRole) ? urlRole : 'B'
-        setAppState(s => ({ ...s, role: validRole, sessionId: urlSession }))
+        const fallbackCount = urlCount || 2
+        setAppState(s => ({ ...s, role: validRole, numFounders: fallbackCount, sessionId: urlSession }))
       }
 
       loadSession()
@@ -463,7 +471,7 @@ export default function App() {
     }
   }
 
-  const shareLink = `${window.location.origin}${window.location.pathname}?session=${appState.sessionId}`
+  const shareLink = `${window.location.origin}${window.location.pathname}?session=${appState.sessionId}&count=${appState.numFounders || 2}`
 
   return (
     <>
