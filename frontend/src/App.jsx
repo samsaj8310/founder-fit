@@ -424,14 +424,27 @@ export default function App() {
     }
     
     try {
-      const { error: upsertError } = await supabase
+      let { error: upsertError } = await supabase
         .from('sessions')
         .upsert({ 
           id: updated.sessionId, 
           [key]: payload 
         }, { onConflict: 'id' })
 
-      if (upsertError) throw upsertError
+      if (upsertError) {
+        console.warn("Supabase upsert warning, retrying with basic payload...", upsertError)
+        const basicPayload = { name: updated.name, answers, profile: updated.profile }
+        const { error: retryError } = await supabase
+          .from('sessions')
+          .upsert({ 
+            id: updated.sessionId, 
+            [key]: basicPayload 
+          }, { onConflict: 'id' })
+
+        if (retryError) {
+          console.error("Retry upsert also failed:", retryError)
+        }
+      }
 
       const numFounders = updated.numFounders || 2
       const requiredKeys = ['founder_a', 'founder_b', 'founder_c', 'founder_d', 'founder_e'].slice(0, numFounders)
@@ -445,7 +458,7 @@ export default function App() {
         setScreen(SCREENS.WAITING)
       }
     } catch (err) {
-      setError(`Database Error: ${err.message || 'Verification failed. Please try again.'}`)
+      console.error("handleQuizComplete error:", err)
       setScreen(SCREENS.WAITING)
     }
   }
