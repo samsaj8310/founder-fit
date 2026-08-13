@@ -11,10 +11,20 @@
 -- }
 CREATE TABLE IF NOT EXISTS public.sessions (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    num_founders INT DEFAULT 2,
     founder_a JSONB,
     founder_b JSONB,
+    founder_c JSONB,
+    founder_d JSONB,
+    founder_e JSONB,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
+
+-- Migration helpers for existing tables:
+ALTER TABLE public.sessions ADD COLUMN IF NOT EXISTS num_founders INT DEFAULT 2;
+ALTER TABLE public.sessions ADD COLUMN IF NOT EXISTS founder_c JSONB;
+ALTER TABLE public.sessions ADD COLUMN IF NOT EXISTS founder_d JSONB;
+ALTER TABLE public.sessions ADD COLUMN IF NOT EXISTS founder_e JSONB;
 
 -- ==========================================
 -- 2. Optional: Enable Row Level Security

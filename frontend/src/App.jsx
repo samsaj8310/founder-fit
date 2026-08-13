@@ -44,7 +44,7 @@ export default function App() {
             .maybeSingle()
 
           if (!error && data) {
-            const numFounders = data.num_founders || 2
+            const numFounders = data.num_founders || data.founder_a?.num_founders || data.founder_b?.num_founders || data.founder_c?.num_founders || 2
             let role = urlRole && ['A','B','C','D','E'].includes(urlRole) ? urlRole : null
 
             if (!role) {
@@ -316,7 +316,7 @@ export default function App() {
 
         if (pollError) return
         if (data) {
-          const numFounders = data.num_founders || appState.numFounders || 2
+          const numFounders = data.num_founders || data.founder_a?.num_founders || data.founder_b?.num_founders || appState.numFounders || 2
           const meKey = `founder_${appState.role.toLowerCase()}`
           
           const newFoundersData = {
@@ -416,14 +416,18 @@ export default function App() {
 
     // Save to Supabase
     const key = `founder_${updated.role.toLowerCase()}`
-    const payload = { name: updated.name, answers, profile: updated.profile }
+    const payload = { 
+      name: updated.name, 
+      answers, 
+      profile: updated.profile,
+      num_founders: updated.numFounders || 2 
+    }
     
     try {
       const { error: upsertError } = await supabase
         .from('sessions')
         .upsert({ 
           id: updated.sessionId, 
-          num_founders: updated.numFounders || 2,
           [key]: payload 
         }, { onConflict: 'id' })
 
