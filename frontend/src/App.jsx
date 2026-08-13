@@ -1,3 +1,4 @@
+// Infopace Founder Fit - Multi-User Assessment (2 to 5 Founders)
 import { useState, useEffect } from 'react'
 import ProfileScreen from './components/ProfileScreen'
 import QuizScreen from './components/QuizScreen'
