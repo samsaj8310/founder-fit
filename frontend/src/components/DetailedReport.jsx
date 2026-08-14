@@ -8,6 +8,7 @@ export default function DetailedReport({
   onClose,
   nameA,
   nameB,
+  foundersList = [],
   overall,
   catScores,
   scoresA,
@@ -15,6 +16,13 @@ export default function DetailedReport({
   riskData,
   weakCats
 }) {
+
+  const effectiveFounders = (foundersList && foundersList.length > 0) ? foundersList : [
+    { name: nameA || 'Founder A', scores: scoresA || {}, color: '#00A9D6' },
+    { name: nameB || 'Founder B', scores: scoresB || {}, color: '#2E2A8C' }
+  ];
+
+  const preparedForNames = effectiveFounders.map(f => f.name).join(' & ');
 
   React.useEffect(() => {
     // Delay of 1000ms to allow chart animations to complete and render on canvas
@@ -499,7 +507,7 @@ export default function DetailedReport({
             <div className="wp-mono" style={{ fontSize: '11.5px', letterSpacing: '.2em', textTransform: 'uppercase', color: '#1a56db', fontWeight: 600, marginBottom: '6mm' }}>ASSESSMENT REPORT · DETAILED SYNERGY SUMMARY</div>
             <div style={{ fontWeight: 800, fontSize: '50px', lineHeight: 1.08, color: '#061228', letterSpacing: '-.01em' }}>Co-Founder</div>
             <div style={{ fontWeight: 800, fontSize: '50px', lineHeight: 1.08, color: '#1a56db', letterSpacing: '-.01em' }}>Compatibility Fit</div>
-            <div style={{ fontSize: '13.8px', fontWeight: 700, letterSpacing: '.05em', textTransform: 'uppercase', color: '#334155', marginTop: '8mm' }}>Prepared For: {nameA} & {nameB}</div>
+            <div style={{ fontSize: '13.8px', fontWeight: 700, letterSpacing: '.05em', textTransform: 'uppercase', color: '#334155', marginTop: '8mm' }}>Prepared For: {preparedForNames}</div>
           </div>
 
           <div style={{ position: 'relative', flex: 1, height: '150mm', marginTop: '-4mm' }}>
@@ -806,10 +814,12 @@ export default function DetailedReport({
               <div style={{ height: '220px', width: '100%', position: 'relative', display: 'flex', flexDirection: 'column' }}>
                 <RadarChart 
                   labels={Object.keys(catScores).map(c => c.split(' ')[0])} 
-                  datasets={[
-                    { label: nameA, data: Object.keys(catScores).map(c => scoresA[c]), borderColor: '#00A9D6', backgroundColor: 'rgba(0, 169, 214, 0.1)' },
-                    { label: nameB, data: Object.keys(catScores).map(c => scoresB[c]), borderColor: '#2E2A8C', backgroundColor: 'rgba(46, 42, 140, 0.1)' }
-                  ]} 
+                  datasets={effectiveFounders.map(f => ({
+                    label: f.name,
+                    data: Object.keys(catScores).map(c => f.scores?.[c] || 0),
+                    borderColor: f.color || '#00A9D6',
+                    backgroundColor: (f.color || '#00A9D6') + '1A'
+                  }))} 
                 />
               </div>
             </div>
@@ -819,21 +829,23 @@ export default function DetailedReport({
               <div style={{ height: '220px', width: '100%', position: 'relative', display: 'flex', flexDirection: 'column' }}>
                 <LineChart 
                   labels={Object.keys(catScores).map(c => c.split(' ')[0])} 
-                  datasets={[
-                    { label: nameA, data: Object.keys(catScores).map(c => scoresA[c]), borderColor: '#00A9D6', backgroundColor: '#00A9D6' },
-                    { label: nameB, data: Object.keys(catScores).map(c => scoresB[c]), borderColor: '#2E2A8C', backgroundColor: '#2E2A8C' }
-                  ]} 
+                  datasets={effectiveFounders.map(f => ({
+                    label: f.name,
+                    data: Object.keys(catScores).map(c => f.scores?.[c] || 0),
+                    borderColor: f.color || '#00A9D6',
+                    backgroundColor: f.color || '#00A9D6'
+                  }))} 
                 />
               </div>
             </div>
           </div>
 
           <h3 className="sec">Visual Insights</h3>
-          <p className="body">The <b>Radar Chart</b> overlays the individual profiles of {nameA} and {nameB}. Areas where the lines closely touch represent high synergy. Divergent gaps highlight areas where decision frameworks should be established to prevent executive paralysis.</p>
+          <p className="body">The <b>Radar Chart</b> overlays the individual profiles of {preparedForNames}. Areas where the lines closely touch represent high synergy. Divergent gaps highlight areas where decision frameworks should be established to prevent executive paralysis.</p>
           <p className="body">The <b>Style Matrix</b> indicates how founders approach execution. A gap of more than 20 points in any dimension represents a risk of operational drag (e.g. one founder executing faster than the other has agreed).</p>
 
           <div className="pg-ftr">
-            <div>Â©2026 Infopace Management Pvt. Ltd. All Rights Reserved.</div>
+            <div>©2026 Infopace Management Pvt. Ltd. All Rights Reserved.</div>
           </div>
         </div>
 
@@ -853,8 +865,9 @@ export default function DetailedReport({
             <thead>
               <tr>
                 <th>Dimension</th>
-                <th>{nameA}</th>
-                <th>{nameB}</th>
+                {effectiveFounders.map((f, idx) => (
+                  <th key={idx}>{f.name}</th>
+                ))}
                 <th>Match</th>
                 <th>Risk</th>
               </tr>
@@ -867,8 +880,9 @@ export default function DetailedReport({
                 return (
                   <tr key={d.key}>
                     <td style={{ fontWeight: 600 }}>{d.name}</td>
-                    <td className="mono">{scoresA[d.key] || 0}</td>
-                    <td className="mono">{scoresB[d.key] || 0}</td>
+                    {effectiveFounders.map((f, idx) => (
+                      <td key={idx} className="mono">{f.scores?.[d.key] || 0}</td>
+                    ))}
                     <td className="mono" style={{ fontWeight: 700 }}>{score}%</td>
                     <td>
                       <span style={{ 
