@@ -96,7 +96,7 @@ export default function ProfileScreen({ appState, setAppState, shareLink, onStar
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', width: '100%', overflow: 'hidden' }}>
+    <div className="profile-screen-container">
       {/* ── TOP NAV HEADER ── */}
       <header className="app-top-header">
         <div className="top-header-left">
