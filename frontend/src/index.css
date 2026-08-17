@@ -480,6 +480,58 @@ html, body, #root {
   color: #10B981;
 }
 
+/* Team Size Selector Responsive Layout */
+.team-size-selector-wrap {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 6px;
+  width: 100%;
+}
+
+.team-size-select {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 2px solid #0066FF;
+  background: #F0F7FF;
+  color: #0066FF;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  min-width: 160px;
+  outline: none;
+}
+
+.team-size-buttons-wrap {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.team-size-btn {
+  flex: 1;
+  min-width: 65px;
+  padding: 10px 8px;
+  border-radius: 10px;
+  border: 1px solid #E2E8F0;
+  background: #FFFFFF;
+  color: #475569;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 13px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.team-size-btn.selected {
+  border: 2px solid #0066FF;
+  background: #0066FF;
+  color: #FFFFFF;
+}
+
 .field-help-text {
   font-size: 11px;
   color: #94A3B8;
@@ -946,6 +998,77 @@ html, body, #root {
 }
 
 @media (max-width: 600px) {
+  .team-size-selector-wrap {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .team-size-select {
+    width: 100%;
+    min-width: 100%;
+  }
+  .team-size-buttons-wrap {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+  .team-size-btn {
+    min-width: 0;
+    padding: 8px 2px;
+    font-size: 12px;
+  }
+
+  .phone-input-wrap {
+    padding: 0 8px;
+  }
+  .phone-native-input {
+    min-width: 0;
+    padding: 0 6px !important;
+  }
+  .phone-digit-counter {
+    flex-shrink: 0;
+    margin-left: auto;
+    font-size: 11px;
+  }
+
+  .share-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .share-row input {
+    width: 100%;
+    text-align: center;
+  }
+  .share-row button {
+    width: 100%;
+  }
+
+  .history-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .history-action-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .step-indicator-bar {
+    padding: 10px 12px;
+    gap: 6px;
+  }
+  .step-line {
+    width: 24px;
+    flex-shrink: 1;
+  }
+  .step-counter-text {
+    margin-left: auto;
+  }
+  .step-label {
+    font-size: 11px;
+  }
+
   .top-purple-bar {
     font-size: 11px !important;
     padding: 6px 10px !important;
