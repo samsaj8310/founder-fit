@@ -28,7 +28,7 @@ export default function InfoModal({ onClose, history = [], onSelectHistory, appS
           <div className="info-modal-logo-wrap">
             <img src="/logo.png" alt="Infopace" className="info-modal-logo-img" />
           </div>
-          <span className="info-modal-subtitle">CREATIVE INNOVATION INDEX</span>
+          <span className="info-modal-subtitle">FOUNDER COMPATIBILITY ASSESSMENT</span>
         </div>
 
         {/* Navigation Tabs */}
@@ -87,7 +87,7 @@ export default function InfoModal({ onClose, history = [], onSelectHistory, appS
               <div className="info-section-box">
                 <h3 className="info-box-title">ABOUT THIS TOOL</h3>
                 <p className="info-box-text">
-                  The <strong>Creative Innovation Index (CII)</strong> is Infopace's proprietary AI-scored psychometric assessment. It measures creative potential across 5 dimensions — Divergent Thinking, Remote Association, Risk & Openness, Creative Vision, and Real-world Behaviour — generating a personalised innovation profile in ~12 minutes.
+                  The <strong>Founder & Co-Founder Compatibility Assessment</strong> is Infopace's proprietary AI-driven psychometric and strategic alignment engine. It measures operational and vision alignment across 7 core dimensions — Roles & Responsibilities, Growth Strategy, Market Approach, Leadership Style, Resilience, Conflict Resolution, and Equity Mindset. Supporting 2 to 5 participating founders, the platform computes pairwise compatibility matrices and generates a real-time synergy dashboard and investor-ready intelligence report in ~10 minutes.
                 </p>
               </div>
 
@@ -95,14 +95,14 @@ export default function InfoModal({ onClose, history = [], onSelectHistory, appS
               <div className="info-section-box">
                 <h3 className="info-box-title">INFOPACE AI ASSESSMENT SUITE</h3>
                 <p className="info-box-text" style={{ fontSize: '12.5px' }}>
-                  Our tools enable users to evaluate business viability, identify growth opportunities, and mitigate risks. The suite includes:
+                  Infopace empowers entrepreneurs, venture builders, and enterprise leadership teams to evaluate partnership viability, identify strategic growth opportunities, and mitigate operational risks:
                 </p>
                 <ul style={{ paddingLeft: '18px', marginTop: '8px', fontSize: '12.5px', color: '#475569', lineHeight: '1.6' }}>
-                  <li><strong>Market Research Assessment</strong>: Validates demand, customer needs, and competition.</li>
-                  <li><strong>Market Potential</strong>: Evaluates scalability, size, and commercial viability.</li>
-                  <li><strong>Creative Innovation Index (CII)</strong>: Measures individual and team innovation capabilities.</li>
-                  <li><strong>Business Risk Assessment</strong>: Identifies strategic, financial, and operational risks.</li>
-                  <li><strong>Founder Compatibility Fit</strong>: Evaluates values, leadership, and partnership alignment.</li>
+                  <li><strong>Founder & Co-Founder Compatibility Fit</strong>: Evaluates pairwise operational synergy, leadership dynamics, equity mindsets, and conflict risk across 2–5 co-founders.</li>
+                  <li><strong>Market Research & Demand Assessment</strong>: Validates market demand, customer ICP, and competitive differentiation.</li>
+                  <li><strong>Market Potential & Commercial Viability</strong>: Evaluates scalability, TAM/SAM market size, and revenue potential.</li>
+                  <li><strong>Creative Innovation Index (CII)</strong>: Measures individual and organizational innovation capabilities.</li>
+                  <li><strong>Business & Operational Risk Assessment</strong>: Identifies strategic, financial, governance, and operational risks.</li>
                 </ul>
               </div>
 
